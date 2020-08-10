@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Store {
+struct Store: Hashable {
     let name: String
     let color: UIColor
 }

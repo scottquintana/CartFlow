@@ -1,5 +1,5 @@
 //
-//  ShoppingListCell.swift
+//  ListCell.swift
 //  Cart Flow
 //
 //  Created by Scott Quintana on 8/3/20.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ShoppingListCell : UITableViewCell {
+class ListCell: UITableViewCell {
     
-    static let reuseID = "ShoppingListCell"
+    static let reuseID = "ListCell"
     
     let listNameLabel = CFTitleLabel(textAlignment: .left, fontSize: 26)
     let listDateUpdated = CFSecondaryTitleLabel(textAlignment: .right)
@@ -30,6 +30,8 @@ class ShoppingListCell : UITableViewCell {
         let dateString = dateFormatter.string(from: shoppingList.lastUpdate)
         listNameLabel.text = shoppingList.name ?? "Untitled List"
         listDateUpdated.text = dateString
+        
+        
     }
     
     private func configure() {

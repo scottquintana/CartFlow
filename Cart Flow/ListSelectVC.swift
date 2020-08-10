@@ -46,7 +46,7 @@ class ListSelectVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(ShoppingListCell.self, forCellReuseIdentifier: ShoppingListCell.reuseID)
+        tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.reuseID)
 
     }
     
@@ -85,7 +85,7 @@ extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListCell.reuseID) as! ShoppingListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.reuseID) as! ListCell
         
         let sortedList = shoppingLists.sorted {
             $0.lastUpdate.compare($1.lastUpdate) == .orderedDescending
@@ -103,5 +103,14 @@ extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
         tableView.deleteRows(at: [indexPath], with: .left)
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let list = shoppingLists[indexPath.row]
+        let destVC = CFTabBarController(listSelected: list)
+        
+        
+        
+        
+        navigationController?.pushViewController(destVC, animated: false)
+    }
     
 }

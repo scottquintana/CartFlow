@@ -26,7 +26,7 @@ class CFTitleLabel: UILabel {
     }
     
     private func configure() {
-        textColor = .secondaryLabel
+        textColor = .label
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.9
         lineBreakMode = .byTruncatingTail

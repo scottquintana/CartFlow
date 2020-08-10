@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ItemLocation {
+struct ItemLocation: Hashable {
     let store: Store
     let aisle: String
 }
