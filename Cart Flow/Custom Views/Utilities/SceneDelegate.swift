@@ -31,7 +31,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func configureNavigationBar() {
-        UINavigationBar.appearance().tintColor = UIColor(red: 0.17, green: 0.25, blue: 0.38, alpha: 1)
+        UINavigationBar.appearance().tintColor = Colors.lightBar
+        UINavigationBar.appearance().barTintColor = Colors.darkBar
+        UINavigationBar.appearance().backgroundColor = Colors.darkBar
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : Colors.lightBar]
         
     }
     

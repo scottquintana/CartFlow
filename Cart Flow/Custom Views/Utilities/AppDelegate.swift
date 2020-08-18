@@ -5,7 +5,6 @@
 //  Created by Scott Quintana on 8/3/20.
 //  Copyright © 2020 Scott Quintana. All rights reserved.
 //
-
 import UIKit
 import CoreData
 

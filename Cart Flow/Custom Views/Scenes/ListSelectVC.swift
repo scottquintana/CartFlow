@@ -7,18 +7,22 @@
 //
 
 import UIKit
+import CoreData
 
 class ListSelectVC: UIViewController {
 
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let tableView = UITableView()
-    var shoppingLists: [ShoppingList] = []
+    var shoppingLists: [ShoppingList] = [].sorted {
+        $0.lastUpdate?.compare($1.lastUpdate!) == .orderedDescending
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureTableView()
-        
+        loadLists()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +35,7 @@ class ListSelectVC: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Your Lists"
       
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         let addButton =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
         navigationItem.rightBarButtonItem = addButton
@@ -50,6 +54,26 @@ class ListSelectVC: UIViewController {
 
     }
     
+    func loadLists() {
+        let request: NSFetchRequest<ShoppingList> = ShoppingList.fetchRequest()
+        
+        let sortDescriptor = NSSortDescriptor(key: "lastUpdate", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+        
+        do {
+            shoppingLists = try context.fetch(request)
+        } catch {
+            print("Error loading your shopping lists")
+        }
+    }
+    
+    func saveLists() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving lists: \(error)")
+        }
+    }
   
     
     @objc func addButtonTapped() {
@@ -59,9 +83,11 @@ class ListSelectVC: UIViewController {
         let alert = UIAlertController(title: "Add new list", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Create new list", style: .default) { action in
-            let newListItem = ShoppingList(name: textField.text!, lastUpdate: Date())
+            let newListItem = ShoppingList(context: self.context)
+            newListItem.name = textField.text ?? "Untitled List"
+            newListItem.lastUpdate = Date()
             self.shoppingLists.append(newListItem)
-            
+            self.saveLists()
             self.tableView.reloadData()
           
         }
@@ -87,11 +113,11 @@ extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.reuseID) as! ListCell
         
-        let sortedList = shoppingLists.sorted {
-            $0.lastUpdate.compare($1.lastUpdate) == .orderedDescending
-        }
+//        let sortedList = shoppingLists.sorted {
+//            $0.lastUpdate?.compare($1.lastUpdate!) == .orderedDescending
+//        }
         
-        let shoppingList = sortedList[indexPath.row]
+        let shoppingList = shoppingLists[indexPath.row]
         cell.set(shoppingList: shoppingList)
         
         return cell

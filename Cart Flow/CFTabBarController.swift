@@ -26,8 +26,8 @@ class CFTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewControllers = [createListsVC(), createItemListVC()]
-        tabBar.barTintColor = UIColor(red: 0.17, green: 0.25, blue: 0.38, alpha: 1)
-        tabBar.tintColor = UIColor(red: 0.88, green: 0.88, blue: 0.89, alpha: 1.00)
+        tabBar.barTintColor = Colors.darkBar
+        tabBar.tintColor = Colors.lightBar
        
     }
     
@@ -44,6 +44,7 @@ class CFTabBarController: UITabBarController {
     func createItemListVC() -> UIViewController {
         let itemListVC = ItemListVC()
         itemListVC.title = "Item list"
+        itemListVC.selectedList = shoppingList
         itemListVC.tabBarItem = UITabBarItem(title: "Items List", image: SFSymbols.list, tag: 1)
         
         return itemListVC

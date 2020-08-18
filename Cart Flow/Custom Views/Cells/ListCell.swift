@@ -27,7 +27,7 @@ class ListCell: UITableViewCell {
     func set(shoppingList: ShoppingList) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
-        let dateString = dateFormatter.string(from: shoppingList.lastUpdate)
+        let dateString = dateFormatter.string(from: shoppingList.lastUpdate!)
         listNameLabel.text = shoppingList.name ?? "Untitled List"
         listDateUpdated.text = dateString
         

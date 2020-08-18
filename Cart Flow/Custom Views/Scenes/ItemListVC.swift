@@ -27,6 +27,7 @@ class ItemListVC: UIViewController {
                     snapshot.deleteItems([identifierToDelete])
                     apply(snapshot)
                     itemListVC.deleteItem(item: identifierToDelete)
+                    itemListVC.saveItems()
                 }
             }
         }
@@ -38,10 +39,11 @@ class ItemListVC: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var fetchedResultsController: NSFetchedResultsController<ShoppingItem>!
-    
+    var selectedList: ShoppingList?
     var tableView = UITableView()
     var dataSource: DataSource!
     let addItemVC = AddNewItemVC()
+   
     
     var currentSearchText = ""
     
@@ -57,12 +59,15 @@ class ItemListVC: UIViewController {
         updateData()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         configureNavItems()
+        tableView.reloadData()
+        
     }
     
     func configureViewController() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = Colors.darkBar
     }
     
     func configureNavItems() {
@@ -105,14 +110,25 @@ class ItemListVC: UIViewController {
             
             cell.set(item: shoppingItem)
             
+            
+            if (shoppingItem.parentList?.contains(self.selectedList!))! {
+                cell.backgroundColor = Colors.green
+            } else {
+                cell.backgroundColor = .systemGray5
+            }
             return cell
         })
     }
     
     
     func addToShoppingList(item: ShoppingItem) {
-        // Add tapped item to ShoppingList
-        print("We have the item \(item.name!)")
+        if (item.parentList?.contains(self.selectedList!))! {
+            item.removeFromParentList(selectedList!)
+        } else {
+            item.addToParentList(selectedList!)
+        }
+        saveItems()
+        tableView.reloadData()
     }
     
     
@@ -185,8 +201,6 @@ extension ItemListVC: UITableViewDelegate {
         
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         addToShoppingList(item: item)
-        
-        tableView.deselectRow(at: indexPath, animated: true)
         
     }
 }
