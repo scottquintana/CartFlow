@@ -28,15 +28,15 @@ class CFPlusButton: UIButton {
         
         plusImageView.translatesAutoresizingMaskIntoConstraints = false
         plusImageView.contentMode = .scaleAspectFill
-        plusImageView.tintColor = Colors.green
+        plusImageView.tintColor = .black
         plusImageView.image = SFSymbols.plus
        
         
         NSLayoutConstraint.activate([
             plusImageView.topAnchor.constraint(equalTo: self.topAnchor),
             plusImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            plusImageView.widthAnchor.constraint(equalToConstant: 40),
-            plusImageView.heightAnchor.constraint(equalToConstant: 40)
+            plusImageView.widthAnchor.constraint(equalToConstant: 20),
+            plusImageView.heightAnchor.constraint(equalToConstant: 20)
         
         ])
     }

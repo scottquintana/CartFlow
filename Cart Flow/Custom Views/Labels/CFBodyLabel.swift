@@ -28,7 +28,7 @@ class CFBodyLabel: UILabel {
    
    
    private func configure() {
-       textColor = .black
+       textColor = .label
        font = UIFont.preferredFont(forTextStyle: .body)
        adjustsFontForContentSizeCategory = true
        

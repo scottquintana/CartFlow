@@ -16,61 +16,51 @@ protocol AddNewItemVCDelegate: class {
 
 class AddNewItemVC: UIViewController {
     
+    let itemNameView = ItemNameView()
+    let itemLocationsView = ItemLocationsView()
+    var editingItem: Bool = false
     let itemNameLabel = CFBodyLabel(textAlignment: .left)
-    let itemNameTextField = CFTextField()
+    
     
     let itemDescriptionLabel = CFBodyLabel(textAlignment: .left)
     let itemDescriptionTextField = CFTextField()
+    let sectionBackgroundColor: UIColor = .systemGray
     
     let itemStoreLabel = CFBodyLabel()
-    let itemStoreTextField = CFTextField()
-    let storePicker = UIPickerView()
-    let storePlusButton = CFPlusButton()
-    
-    let itemAisleLabel = CFBodyLabel()
-    let itemAisleTextField = CFTextField()
-    let aislePicker = UIPickerView()
-    let aislePlusButton = CFPlusButton()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let addButton = CFButton(backgroundColor: .systemBlue, title: "Add New Item")
+    
+    
+    var selectedItem: ShoppingItem? = nil
+    var itemLocations: [Aisle] = []
     
     var stores: [GroceryStore] = []
-    var aisles: [Aisle] = []
-    var selectedStore: GroceryStore? = nil
-    var selectedAisle: Aisle? = nil
+    let locationSelector = LocationSelectionView()
+    
     
     var delegate: AddNewItemVCDelegate!
+    let padding: CGFloat = 20
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+        self.view.isUserInteractionEnabled = true
+        self.view.addGestureRecognizer(tapGesture)
         
-        view.addSubview(itemNameLabel)
-        view.addSubview(itemNameTextField)
-        view.addSubview(addButton)
-        view.addSubview(itemDescriptionLabel)
-        view.addSubview(itemDescriptionTextField)
-        view.addSubview(itemStoreLabel)
-        view.addSubview(itemStoreTextField)
-        view.addSubview(storePlusButton)
-        view.addSubview(itemAisleLabel)
-        view.addSubview(itemAisleTextField)
-        view.addSubview(aislePlusButton)
+        locationSelector.storeSelection.delegate = self
+        locationSelector.aisleSelection.delegate = self
         
+        configureCancelButton()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         configureItemName()
-        configureItemDescription()
+        configureItemLocations()
+        configureLocationSelection()
         
-        configureStoreSelection()
-        configureStorePicker()
-        configureAisleSelection()
-        configureAislePicker()
-        
-        createAisleToolbar()
-        configureCancelButton()
         configureAddButton()
-        
-        loadStores()
         
         view.backgroundColor = .systemBackground
     }
@@ -79,157 +69,68 @@ class AddNewItemVC: UIViewController {
     private func configureCancelButton() {
         
         let navigationBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44))
+        navigationBar.barTintColor = .systemBackground
+        navigationBar.tintColor = .systemBackground
         self.view.addSubview(navigationBar)
         
         let cancelButton =  UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = cancelButton
+        cancelButton.tintColor = .label
         navigationBar.setItems([navigationItem], animated: false)
     }
     
+    
     private func configureItemName() {
+        view.addSubview(itemNameView)
+        itemNameView.translatesAutoresizingMaskIntoConstraints = false
+        itemNameView.layer.cornerRadius = 20
+        itemNameView.backgroundColor = sectionBackgroundColor
         
-        itemNameLabel.text = "Name: (required)"
-        
-        let padding: CGFloat = 20
-        
+        itemNameView.itemNameTextField.text = editingItem ? "\(selectedItem!.name!)" : ""
         NSLayoutConstraint.activate([
-            
-            itemNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            itemNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemNameLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            itemNameTextField.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor, constant: padding),
-            itemNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemNameTextField.heightAnchor.constraint(equalToConstant: 36)
-            
+            itemNameView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
+            itemNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            itemNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            itemNameView.heightAnchor.constraint(equalToConstant: 120)
+        
         ])
     }
     
     
-    private func configureItemDescription() {
+    private func configureItemLocations() {
+        if selectedItem != nil {
+            itemLocations = selectedItem!.itemLocation?.allObjects as! [Aisle]
+        }
         
-        itemDescriptionLabel.text = "Description of item:"
-        
-        let padding: CGFloat = 20
-        
-        
-        NSLayoutConstraint.activate([
-            itemDescriptionLabel.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: padding),
-            itemDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemDescriptionLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            itemDescriptionTextField.topAnchor.constraint(equalTo: itemDescriptionLabel.bottomAnchor, constant: padding),
-            itemDescriptionTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemDescriptionTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemDescriptionTextField.heightAnchor.constraint(equalToConstant: 36)
-            
-        ])
-        
-    }
-    
-    func configureStoreSelection() {
-        let padding: CGFloat = 20
-        
-        itemStoreLabel.text = "Store:"
-        
-        itemStoreTextField.placeholder = "Click to select store"
-        
-        //storePlusButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        storePlusButton.addTarget(self, action: #selector(addStorePressed), for: .touchUpInside)
+        itemLocationsView.set(itemLocations: itemLocations)
+        view.addSubview(itemLocationsView)
+        itemLocationsView.translatesAutoresizingMaskIntoConstraints = false
+        itemLocationsView.layer.cornerRadius = 20
+        itemLocationsView.backgroundColor = sectionBackgroundColor
         
         NSLayoutConstraint.activate([
-            itemStoreLabel.topAnchor.constraint(equalTo: itemDescriptionTextField.bottomAnchor, constant: padding),
-            itemStoreLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemStoreLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemStoreLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            itemStoreTextField.topAnchor.constraint(equalTo: itemStoreLabel.bottomAnchor, constant: padding),
-            itemStoreTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemStoreTextField.trailingAnchor.constraint(equalTo: storePlusButton.leadingAnchor, constant: -5),
-            itemStoreTextField.heightAnchor.constraint(equalToConstant: 40),
-            
-            storePlusButton.centerYAnchor.constraint(equalTo: itemStoreTextField.centerYAnchor),
-            storePlusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            storePlusButton.heightAnchor.constraint(equalToConstant: 40),
-            storePlusButton.widthAnchor.constraint(equalToConstant: 40)
-            
-            
+            itemLocationsView.topAnchor.constraint(equalTo: itemNameView.bottomAnchor, constant: padding),
+            itemLocationsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            itemLocationsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            itemLocationsView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
     
-    func configureStorePicker() {
-        storePicker.delegate = self
-        storePicker.dataSource = self
-        storePicker.tag = 1
-        storePicker.translatesAutoresizingMaskIntoConstraints = false
+    private func configureLocationSelection() {
+        view.addSubview(locationSelector)
         
-        let toolbar =  UIToolbar()
-        
-        let flexButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(AddNewItemVC.dismissKeyboard))
-        
-        toolbar.setItems([flexButton, doneButton], animated: true)
-        toolbar.isUserInteractionEnabled = true
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        toolbar.sizeToFit()
-        
-        itemStoreTextField.inputView = storePicker
-        itemStoreTextField.inputAccessoryView = toolbar
-    }
-    
-    
-    func configureAisleSelection() {
-        let padding: CGFloat = 20
-        
-        itemAisleLabel.text = "Aisle:"
-        itemAisleTextField.inputView = aislePicker
-        itemAisleTextField.placeholder = "Click to select aisle"
-        
-        
-        aislePlusButton.addTarget(self, action: #selector(addAislePressed), for: .touchUpInside)
+        locationSelector.translatesAutoresizingMaskIntoConstraints = false
+        locationSelector.layer.cornerRadius = 20
+        locationSelector.backgroundColor = sectionBackgroundColor
         
         NSLayoutConstraint.activate([
-            itemAisleLabel.topAnchor.constraint(equalTo: itemStoreTextField.bottomAnchor, constant: padding),
-            itemAisleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemAisleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemAisleLabel.heightAnchor.constraint(equalToConstant: 20),
+            locationSelector.topAnchor.constraint(equalTo: itemLocationsView.bottomAnchor, constant: padding),
+            locationSelector.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            locationSelector.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            locationSelector.heightAnchor.constraint(equalToConstant: 260)
             
-            itemAisleTextField.topAnchor.constraint(equalTo: itemAisleLabel.bottomAnchor, constant: padding),
-            itemAisleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            itemAisleTextField.trailingAnchor.constraint(equalTo: aislePlusButton.leadingAnchor, constant: -5),
-            itemAisleTextField.heightAnchor.constraint(equalToConstant: 40),
-            
-            aislePlusButton.centerYAnchor.constraint(equalTo: itemAisleTextField.centerYAnchor),
-            aislePlusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            aislePlusButton.heightAnchor.constraint(equalToConstant: 40),
-            aislePlusButton.widthAnchor.constraint(equalToConstant: 40)
         ])
-    }
-    
-    func configureAislePicker() {
-        aislePicker.delegate = self
-        aislePicker.tag = 2
-        aislePicker.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    
-    func createAisleToolbar() {
-        let toolbar =  UIToolbar()
-        
-        let flexButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(AddNewItemVC.dismissKeyboard))
-        
-        toolbar.setItems([flexButton, doneButton], animated: false)
-        toolbar.isUserInteractionEnabled = true
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        
-        toolbar.sizeToFit()
-        itemAisleTextField.inputAccessoryView = toolbar
     }
     
     
@@ -238,121 +139,64 @@ class AddNewItemVC: UIViewController {
     }
     
     func configureAddButton() {
+        let title = editingItem ? "Save Edit" : "Add new item"
+        let addButton = CFButton(backgroundColor: .systemBlue, title: title)
+        view.addSubview(addButton)
+        
         addButton.addTarget(self, action: #selector(pushItemListVC), for: .touchUpInside)
         addButton.backgroundColor = Colors.green
         
         NSLayoutConstraint.activate([
-            addButton.topAnchor.constraint(equalTo: itemAisleTextField.bottomAnchor, constant: 50),
+            addButton.topAnchor.constraint(equalTo: locationSelector.bottomAnchor, constant: 50),
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             addButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
-    @objc func addStorePressed() {
+    
+    
+    
+    
+    
+    private func validationAlert(message: String) {
+        let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "Ok", style: .destructive, handler: { (action) -> Void in })
         
-        var textField = UITextField()
         
-        let alert = UIAlertController(title: "Add new grocery store", message: "", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        let action = UIAlertAction(title: "Add store", style: .default) { (action) in
-            let newStore = GroceryStore(context: self.context)
-            newStore.name = textField.text!
-            do {
-                try self.context.save()
-            } catch {
-                print("Error saving store")
-            }
-            self.loadStores()
-            self.storePicker.reloadAllComponents()
-            
-        }
-        
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Store name"
-            textField = alertTextField
-        }
-        
-        alert.addAction(action)
-        alert.addAction(cancel)
+        alert.addAction(ok)
         
         present(alert, animated: true, completion: nil)
-        
     }
     
     
-    @objc func addAislePressed() {
-        
-        var textField = UITextField()
-        
-        let alert = UIAlertController(title: "Add new aisle", message: "", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        let action = UIAlertAction(title: "Add aisle", style: .default) { (action) in
-            let newAisle = Aisle(context: self.context)
-            newAisle.label = textField.text!
-            newAisle.parentStore = self.selectedStore
-            do {
-                try self.context.save()
-            } catch {
-                print("Error saving aisle")
-            }
-            self.loadAisles()
-            self.aislePicker.reloadAllComponents()
-            
-        }
-        
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Store name"
-            textField = alertTextField
-        }
-        
-        alert.addAction(action)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true, completion: nil)
-        
-    }
     
-    func loadStores() {
-        let request: NSFetchRequest<GroceryStore> = GroceryStore.fetchRequest()
+    @objc func dismissVC() {
+        selectedItem = nil
+        itemNameView.itemNameTextField.text = ""
         
-        
-        do {
-            stores = try context.fetch(request)
-        } catch {
-            print("Error loading stores \(error)")
-        }
-    }
-    
-    
-    func loadAisles(){
-        let request: NSFetchRequest<Aisle> = Aisle.fetchRequest()
-        let predicate = NSPredicate(format: "ANY parentStore.name =[cd] %@", selectedStore!.name!)
-        let sortDescriptor = NSSortDescriptor(key: "label", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
-        request.predicate = predicate
-        request.sortDescriptors = [sortDescriptor]
-        
-        do {
-            aisles = try context.fetch(request)
-        } catch {
-            print("Error loading aisles")
-        }
-        
-        self.aislePicker.reloadAllComponents()
-        
-    }
-    
-    @objc func dismissVC(){
         dismiss(animated: true)
-        itemNameTextField.text = ""
     }
     
     @objc func pushItemListVC() {
         
+        if itemNameView.itemNameTextField.text == "" {
+            validationAlert(message: "You must name the item")
+            return
+        }
         
-        let newItem = ShoppingItem(context: context)
-        newItem.name = itemNameTextField.text!
-        newItem.addToItemLocation(selectedAisle!)
+        switch editingItem {
+        case true:
+            selectedItem?.name = itemNameView.itemNameTextField.text
+        case false:
+            let newItem = ShoppingItem(context: context)
+            newItem.name = itemNameView.itemNameTextField.text!
+            if let aisleToAdd = locationSelector.aisleSelection.selectedAisle {
+                newItem.addToItemLocation(aisleToAdd)
+            }
+            
+        }
+        
         
         do {
             try context.save()
@@ -360,54 +204,38 @@ class AddNewItemVC: UIViewController {
             print("Error saving context \(error)")
         }
         
+        dismissVC()
+    }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+}
+
+extension AddNewItemVC: AisleSelectionViewDelegate, StoreSelectionViewDelegate {
+    func didUpdateStore(selectedStore: GroceryStore) {
+        locationSelector.aisleSelection.selectedStore = selectedStore
+        locationSelector.aisleSelection.loadAisles()
+    }
+    
+    func presentStoreAlert(alert: UIAlertController) {
+        let editItemVC = EditLocationVC()
+        editItemVC.selectedStore = locationSelector.storeSelection.selectedStore
+        editItemVC.modalPresentationStyle = .overFullScreen
         
-        // copy above principal connecting aisle to store, 
+        present(editItemVC, animated: false)
+    }
+    
+    func presentAisleAlert(alert: UIAlertController) {
         
-        dismiss(animated: true)
+      
+        let editItemVC = EditLocationVC()
+        editItemVC.modalPresentationStyle = .overFullScreen
         
+        present(editItemVC, animated: false)
         
     }
+    
     
 }
 
-extension AddNewItemVC: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView.tag {
-        case 1:
-            return stores.count
-        default:
-            return aisles.count
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView.tag {
-        case 1:
-            return stores[row].name
-        default:
-            return aisles[row].label
-        }
-        
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView.tag {
-        case 1:
-            selectedStore = stores[row]
-            itemStoreTextField.text = selectedStore?.name
-            dismissKeyboard()
-            loadAisles()
-        case 2:
-            selectedAisle = aisles[row]
-            itemAisleTextField.text = selectedAisle?.label
-            dismissKeyboard()
-        default:
-            dismissKeyboard()
-        }
-        
-    }
-}

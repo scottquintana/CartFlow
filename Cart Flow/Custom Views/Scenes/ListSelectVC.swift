@@ -81,7 +81,7 @@ class ListSelectVC: UIViewController {
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add new list", message: "", preferredStyle: .alert)
-        
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
         let action = UIAlertAction(title: "Create new list", style: .default) { action in
             let newListItem = ShoppingList(context: self.context)
             newListItem.name = textField.text ?? "Untitled List"
@@ -89,14 +89,14 @@ class ListSelectVC: UIViewController {
             self.shoppingLists.append(newListItem)
             self.saveLists()
             self.tableView.reloadData()
-          
         }
+       
         
         alert.addTextField { alertTextField in
             alertTextField.placeholder = "Name of list"
             textField = alertTextField
         }
-            
+        alert.addAction(cancel)
         alert.addAction(action)
             present(alert, animated: true, completion: nil)
         }
@@ -104,6 +104,8 @@ class ListSelectVC: UIViewController {
     
 
 }
+
+//MARK: - Extensions
 
 extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -113,10 +115,6 @@ extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListCell.reuseID) as! ListCell
         
-//        let sortedList = shoppingLists.sorted {
-//            $0.lastUpdate?.compare($1.lastUpdate!) == .orderedDescending
-//        }
-        
         let shoppingList = shoppingLists[indexPath.row]
         cell.set(shoppingList: shoppingList)
         
@@ -125,16 +123,16 @@ extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        context.delete(shoppingLists[indexPath.row])
         self.shoppingLists.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
+        self.saveLists()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let list = shoppingLists[indexPath.row]
         let destVC = CFTabBarController(listSelected: list)
-        
-        
-        
         
         navigationController?.pushViewController(destVC, animated: false)
     }

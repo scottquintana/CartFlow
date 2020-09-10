@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol ItemListCellDelegate {
+    func didTapEditItemButton(for item: ShoppingItem)
+}
+
 class ItemListCell: UITableViewCell {
 
     static let reuseID = "ItemListCell"
     
     let itemLabel = CFTitleLabel(textAlignment: .left, fontSize: 20)
+    let editItemButton = CFEditButton()
+    var shoppingItem: ShoppingItem? = nil
+    var delegate: ItemListCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,22 +32,34 @@ class ItemListCell: UITableViewCell {
     
     func set(item: ShoppingItem) {
         itemLabel.text = item.name
-        
-        
+        self.shoppingItem = item
         
     }
     
     
     private func configure() {
         addSubview(itemLabel)
-        
+        addSubview(editItemButton)
         let padding: CGFloat = 20
+        
         
         NSLayoutConstraint.activate([
             itemLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             itemLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            itemLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            itemLabel.heightAnchor.constraint(equalToConstant: 24)
+            itemLabel.trailingAnchor.constraint(equalTo: editItemButton.leadingAnchor, constant: -padding),
+            itemLabel.heightAnchor.constraint(equalToConstant: 24),
+            
+            editItemButton.centerYAnchor.constraint(equalTo: itemLabel.centerYAnchor),
+            editItemButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
+            editItemButton.heightAnchor.constraint(equalToConstant: 40),
+            editItemButton.widthAnchor.constraint(equalToConstant: 40)
         ])
+        
+        editItemButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc func editButtonPressed() {
+        delegate?.didTapEditItemButton(for: self.shoppingItem!)
+        print("Tapped!")
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 class ItemListVC: UIViewController {
     
     class DataSource: UITableViewDiffableDataSource<Section, ShoppingItem> {
@@ -100,6 +101,8 @@ class ItemListVC: UIViewController {
     
     
     @objc func addButtonTapped() {
+        addItemVC.editingItem = false
+        addItemVC.itemLocations = []
         present(addItemVC, animated: true)
     }
     
@@ -109,7 +112,7 @@ class ItemListVC: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: ItemListCell.reuseID, for: indexPath) as! ItemListCell
             
             cell.set(item: shoppingItem)
-            
+            cell.delegate = self
             
             if (shoppingItem.parentList?.contains(self.selectedList!))! {
                 cell.backgroundColor = Colors.green
@@ -198,10 +201,10 @@ extension ItemListVC: UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         addToShoppingList(item: item)
-        
+
     }
 }
 
@@ -217,6 +220,17 @@ extension ItemListVC: UISearchResultsUpdating {
         currentSearchText = text
         loadItems()
     }
+}
+
+extension ItemListVC: ItemListCellDelegate {
+    func didTapEditItemButton(for item: ShoppingItem) {
+        
+        addItemVC.selectedItem = item
+        addItemVC.editingItem = true
+        present(addItemVC, animated: true)
+    }
+    
+    
 }
 
 

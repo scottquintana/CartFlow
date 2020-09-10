@@ -2,14 +2,14 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Aisle" representedClassName="Aisle" syncable="YES" codeGenerationType="class">
         <attribute name="desc" optional="YES" attributeType="String"/>
-        <attribute name="label" optional="YES" attributeType="String"/>
+        <attribute name="label" attributeType="String"/>
         <relationship name="itemsInAisle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingItem" inverseName="itemLocation" inverseEntity="ShoppingItem"/>
         <relationship name="parentStore" maxCount="1" deletionRule="Nullify" destinationEntity="GroceryStore" inverseName="aisles" inverseEntity="GroceryStore"/>
     </entity>
     <entity name="GroceryStore" representedClassName="GroceryStore" syncable="YES" codeGenerationType="class">
         <attribute name="colorAsHex" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="aisles" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Aisle" inverseName="parentStore" inverseEntity="Aisle"/>
+        <relationship name="aisles" toMany="YES" deletionRule="Cascade" destinationEntity="Aisle" inverseName="parentStore" inverseEntity="Aisle"/>
     </entity>
     <entity name="LocationForStore" representedClassName=".LocationForStore" syncable="YES" codeGenerationType="class">
         <attribute name="aisleNumber" optional="YES" attributeType="String"/>

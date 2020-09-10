@@ -37,8 +37,6 @@ class ShoppingListVC: UIViewController {
     init(shoppingList: ShoppingList) {
         super.init(nibName: nil, bundle: nil)
         self.shoppingList = shoppingList
-        
-        print(shoppingList.name!)
     }
     
     
@@ -86,9 +84,9 @@ class ShoppingListVC: UIViewController {
                 for item in items {
                     if let locations = item.itemLocation as? Set<Aisle> {
                         for location in locations {
-                            print("\(item.name!): \(location.label!) at: \(location.parentStore!.name!)")
+                            
                             if location.parentStore!.name == currentStore {
-                                print("hi")
+                                
                                 
                                 if let aisle = location.label {
                                     
@@ -96,7 +94,7 @@ class ShoppingListVC: UIViewController {
                                     itemCurrentLocation.aisleNumber = aisle
                                     itemCurrentLocation.storeName = location.parentStore?.name
                                     item.itemLocationInStore = itemCurrentLocation
-                                    print("Here: \(item.itemLocationInStore?.aisleNumber)")
+                                    
                                 }
                             }
                         }
@@ -182,8 +180,7 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entity = fetchController.object(at: indexPath)
-        print(entity.itemLocationInStore?.aisleNumber)
+       // let entity = fetchController.object(at: indexPath)
     }
     
     
