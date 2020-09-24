@@ -8,20 +8,21 @@
 
 import UIKit
 
-class LocationCell: UITableViewCell {
+class LocationCell: UICollectionViewCell {
 
     static let reuseID = "LocationCell"
     
     let storeLabel = CFLocationLabel()
     let aisleLabel = CFLocationLabel()
+    let locationBox = UIView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
     }
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         configure()
     }
     
@@ -30,21 +31,31 @@ class LocationCell: UITableViewCell {
     }
     
     private func configure() {
-        addSubview(storeLabel)
-        addSubview(aisleLabel)
+        addSubview(locationBox)
+        locationBox.addSubview(storeLabel)
+        locationBox.addSubview(aisleLabel)
+        locationBox.backgroundColor = .black
+        locationBox.layer.cornerRadius = 10
+        locationBox.translatesAutoresizingMaskIntoConstraints = false
         
-        let padding: CGFloat = 20
+        let padding: CGFloat = 8
         
         NSLayoutConstraint.activate([
-            storeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            storeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            storeLabel.trailingAnchor.constraint(equalTo: aisleLabel.leadingAnchor, constant: -padding),
+            
+            locationBox.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+            locationBox.leadingAnchor.constraint(equalTo: leadingAnchor),
+            locationBox.trailingAnchor.constraint(equalTo: trailingAnchor),
+            locationBox.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: padding),
+            
+            storeLabel.topAnchor.constraint(equalTo: locationBox.topAnchor, constant: 5),
+            storeLabel.leadingAnchor.constraint(equalTo: locationBox.leadingAnchor, constant: padding),
+            storeLabel.trailingAnchor.constraint(equalTo: locationBox.trailingAnchor, constant: -padding),
             storeLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            aisleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            aisleLabel.leadingAnchor.constraint(equalTo: storeLabel.trailingAnchor, constant: padding),
-            aisleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            aisleLabel.heightAnchor.constraint(equalToConstant: 20)
+            aisleLabel.topAnchor.constraint(equalTo: storeLabel.bottomAnchor, constant: 5),
+            aisleLabel.leadingAnchor.constraint(equalTo: locationBox.leadingAnchor, constant: padding),
+            aisleLabel.trailingAnchor.constraint(equalTo: locationBox.trailingAnchor, constant: -padding),
+            aisleLabel.bottomAnchor.constraint(equalTo: locationBox.bottomAnchor, constant: -padding)
         
         ])
     }

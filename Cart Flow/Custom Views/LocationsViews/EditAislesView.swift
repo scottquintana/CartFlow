@@ -108,9 +108,7 @@ class EditAislesView: UIView {
             descriptionStackView.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 5),
             descriptionStackView.leadingAnchor.constraint(equalTo: aisleStackView.trailingAnchor, constant: 5),
             descriptionStackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -5),
-            //descriptionStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: -5),
            
-           // descriptionTextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
             descriptionTextField.heightAnchor.constraint(equalToConstant: 36),
             descriptionTextField.widthAnchor.constraint(equalToConstant: 200)
         
@@ -169,6 +167,7 @@ class EditAislesView: UIView {
         isEditingAisle = false
         addUpdateButton.set(backgroundColor: Colors.darkBar, title: "Add aisle")
     }
+    
     
     @objc func addUpdateAisleInfo() {
         if isEditingAisle {

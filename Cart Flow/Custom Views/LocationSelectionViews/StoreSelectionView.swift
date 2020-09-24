@@ -12,7 +12,9 @@ import CoreData
 protocol StoreSelectionViewDelegate: class {
     func didUpdateStore(selectedStore: GroceryStore)
     
-    func presentStoreAlert(alert: UIAlertController)
+    func didPressEditStore()
+    
+    func didPressAddStore(alert: UIAlertController)
 }
 
 class StoreSelectionView: UIView {
@@ -20,13 +22,14 @@ class StoreSelectionView: UIView {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let storesLabel = CFSecondaryTitleLabel()
-    let plusButton = CFPlusButton()
-    let minusButton = CFMinusButton()
+    let addButton = CFPlusButton()
+    let editButton = CFEditButton()
     
+    var fetchedResultsController: NSFetchedResultsController<GroceryStore>!
     var stores: [GroceryStore] = []
     let storePicker = UIPickerView()
     
-    weak var delegate: StoreSelectionViewDelegate!
+    weak var delegate: StoreSelectionViewDelegate! 
     
     var selectedStore: GroceryStore? = nil
     
@@ -37,8 +40,8 @@ class StoreSelectionView: UIView {
         layoutUI()
         configureStorePicker()
         
-        
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -49,12 +52,23 @@ class StoreSelectionView: UIView {
         storePicker.delegate = self
         storePicker.dataSource = self
         storePicker.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     
     func loadStores() {
         let request: NSFetchRequest<GroceryStore> = GroceryStore.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("Error loading stores \(error)")
+        }
         
         do {
             stores = try context.fetch(request)
@@ -62,35 +76,56 @@ class StoreSelectionView: UIView {
             print("Error loading stores \(error)")
         }
         
+        
         storePicker.reloadAllComponents()
+        
+        
+    }
+    
+    func setLocationToEdit(aisle: Aisle) {
+        if let store = aisle.parentStore{
+            if let storeIndex = stores.firstIndex(of: store) {
+            storePicker.selectRow(storeIndex, inComponent: 0, animated: false)
+            }
+            delegate.didUpdateStore(selectedStore: store)
+        }
+        
+       
+        
     }
     
     
     private func layoutUI() {
         addSubview(storesLabel)
-        addSubview(plusButton)
-        addSubview(minusButton)
+        addSubview(addButton)
+        addSubview(editButton)
+        
         addSubview(storePicker)
         
+        storePicker.setValue(UIColor.black, forKey: "textColor")
         storesLabel.text = "Stores:"
-        plusButton.addTarget(self, action: #selector(addStorePressed), for: .touchUpInside)
-        minusButton.addTarget(self, action: #selector(removeStorePressed), for: .touchUpInside)
         
-        let padding: CGFloat = 5
+        addButton.addTarget(self, action: #selector(addNewStore), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editStorePressed), for: .touchUpInside)
+        
+        let padding: CGFloat = 15
         
         NSLayoutConstraint.activate([
-            storesLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+            storesLabel.topAnchor.constraint(equalTo: self.topAnchor),
             storesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            storesLabel.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor),
+            storesLabel.trailingAnchor.constraint(equalTo: editButton.leadingAnchor),
             storesLabel.heightAnchor.constraint(equalToConstant: 26),
             
-            plusButton.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
-            plusButton.leadingAnchor.constraint(equalTo: storesLabel.trailingAnchor),
-            plusButton.trailingAnchor.constraint(equalTo: minusButton.leadingAnchor),
+            addButton.centerYAnchor.constraint(equalTo: storesLabel.centerYAnchor),
+            addButton.trailingAnchor.constraint(equalTo: editButton.leadingAnchor, constant: -padding),
+            addButton.widthAnchor.constraint(equalToConstant: 26),
+            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
             
-            minusButton.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
-            minusButton.leadingAnchor.constraint(equalTo: plusButton.trailingAnchor),
-            minusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            editButton.centerYAnchor.constraint(equalTo: storesLabel.centerYAnchor),
+            editButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
+            editButton.widthAnchor.constraint(equalToConstant: 26),
+            editButton.heightAnchor.constraint(equalTo: editButton.widthAnchor),
             
             storePicker.topAnchor.constraint(equalTo: storesLabel.bottomAnchor, constant: padding),
             storePicker.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
@@ -100,55 +135,47 @@ class StoreSelectionView: UIView {
     }
     
     func setSelectedStore() {
-        let row = storePicker.selectedRow(inComponent: 0)
-        storePicker.delegate?.pickerView?(storePicker, didSelectRow: row, inComponent: 0)
+        if stores.count > 0 {
+            pickerView(storePicker, didSelectRow: 0, inComponent: 0)
+        }
     }
     
     
-    @objc func addStorePressed() {
+    @objc func addNewStore() {
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add new store", message: "", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        let action = UIAlertAction(title: "Add store", style: .default) { (action) in
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
             let newStore = GroceryStore(context: self.context)
-            newStore.name = textField.text!
+            newStore.name = textField.text
             
-            self.saveItems()
+            do {
+                try self.context.save()
+            } catch {
+                print("error adding store")
+                self.context.delete(newStore)
+            }
+            
             self.loadStores()
+            
         }
-        
-        alert.addTextField { (alertTextField) in
+        alert.addTextField { alertTextField in
             alertTextField.placeholder = "Store name"
             textField = alertTextField
         }
-        
-        alert.addAction(action)
         alert.addAction(cancel)
+        alert.addAction(action)
         
-        delegate.presentStoreAlert(alert: alert)
+        delegate.didPressAddStore(alert: alert)
     }
     
     
-    @objc func removeStorePressed() {
-        guard let selectedStore = selectedStore else { return }
-        
-        let alert = UIAlertController(title: "Remove store", message: "", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        let action = UIAlertAction(title: "Remove", style: .default) { (action) in
-            
-            self.context.delete(selectedStore)
-            self.selectedStore = nil
-            self.saveItems()
-            self.loadStores()
+    @objc func editStorePressed() {
+        if selectedStore != nil {
+            delegate.didPressEditStore()
         }
         
-        alert.message = "Are you sure you want to remove this store? All of the associated aisles will be removed. The items in those aisles will not be deleted, however they will lose their location"
-        
-        alert.addAction(action)
-        alert.addAction(cancel)
-        
-        delegate.presentStoreAlert(alert: alert)
     }
     
     
@@ -183,10 +210,15 @@ extension StoreSelectionView: UIPickerViewDelegate, UIPickerViewDataSource {
         selectedStore = stores[row]
         
         if selectedStore != nil {
-            
-            delegate.didUpdateStore(selectedStore: selectedStore!)
+        
+            delegate?.didUpdateStore(selectedStore: selectedStore!)
             
         }
     }
-    
+}
+
+extension StoreSelectionView: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        loadStores()
+    }
 }

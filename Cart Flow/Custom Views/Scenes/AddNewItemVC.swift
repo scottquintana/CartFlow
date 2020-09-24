@@ -18,13 +18,14 @@ class AddNewItemVC: UIViewController {
     
     let itemNameView = ItemNameView()
     let itemLocationsView = ItemLocationsView()
-    var editingItem: Bool = false
+    var itemLocationsHeight: NSLayoutConstraint!
+    var editingItem = false
     let itemNameLabel = CFBodyLabel(textAlignment: .left)
     
     
     let itemDescriptionLabel = CFBodyLabel(textAlignment: .left)
     let itemDescriptionTextField = CFTextField()
-    let sectionBackgroundColor: UIColor = .systemGray
+    let sectionBackgroundColor: UIColor = .white
     
     let itemStoreLabel = CFBodyLabel()
     
@@ -36,8 +37,9 @@ class AddNewItemVC: UIViewController {
     
     var stores: [GroceryStore] = []
     let locationSelector = LocationSelectionView()
-    
-    
+    var locationSelectorHeight: NSLayoutConstraint!
+    var isEditingLocation = false
+    var isAddingLocation = false
     var delegate: AddNewItemVCDelegate!
     let padding: CGFloat = 20
     
@@ -46,25 +48,29 @@ class AddNewItemVC: UIViewController {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         self.view.isUserInteractionEnabled = true
+        tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
-        
-        locationSelector.storeSelection.delegate = self
-        locationSelector.aisleSelection.delegate = self
-        
+        configureDelegates()
         configureCancelButton()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
         configureItemName()
         configureItemLocations()
         configureLocationSelection()
         
         configureAddButton()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = Colors.green
     }
     
+    
+    private func configureDelegates() {
+        itemLocationsView.delegate = self
+        locationSelector.delegate = self
+        locationSelector.storeSelection.delegate = self
+        locationSelector.aisleSelection.delegate = self
+    }
     
     private func configureCancelButton() {
         
@@ -92,45 +98,63 @@ class AddNewItemVC: UIViewController {
             itemNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             itemNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             itemNameView.heightAnchor.constraint(equalToConstant: 120)
-        
         ])
     }
     
-    
-    private func configureItemLocations() {
+    private func loadLocations() {
         if selectedItem != nil {
             itemLocations = selectedItem!.itemLocation?.allObjects as! [Aisle]
         }
         
         itemLocationsView.set(itemLocations: itemLocations)
+    }
+    private func configureItemLocations() {
+        loadLocations()
         view.addSubview(itemLocationsView)
-        itemLocationsView.translatesAutoresizingMaskIntoConstraints = false
-        itemLocationsView.layer.cornerRadius = 20
-        itemLocationsView.backgroundColor = sectionBackgroundColor
         
+        itemLocationsView.translatesAutoresizingMaskIntoConstraints = false
+        itemLocationsView.layer.cornerRadius = 16
+        itemLocationsView.layer.masksToBounds = true
+        itemLocationsView.backgroundColor = sectionBackgroundColor
+        itemLocationsHeight = itemLocationsView.heightAnchor.constraint(equalToConstant: 136)
+        itemLocationsHeight.isActive = true
         NSLayoutConstraint.activate([
             itemLocationsView.topAnchor.constraint(equalTo: itemNameView.bottomAnchor, constant: padding),
             itemLocationsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             itemLocationsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemLocationsView.heightAnchor.constraint(equalToConstant: 100)
         ])
+    }
+    
+    private func toggleLocations() {
+        
+        isEditingLocation = !isEditingLocation
+        itemLocationsHeight.constant = isEditingLocation ? 190 : 136
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut, animations: { self.view.layoutIfNeeded() })
     }
     
     
     private func configureLocationSelection() {
         view.addSubview(locationSelector)
-        
+        locationSelector.layer.masksToBounds = true
         locationSelector.translatesAutoresizingMaskIntoConstraints = false
-        locationSelector.layer.cornerRadius = 20
+        locationSelector.layer.cornerRadius = 16
         locationSelector.backgroundColor = sectionBackgroundColor
+        locationSelectorHeight = locationSelector.heightAnchor.constraint(equalToConstant: 40)
+        locationSelectorHeight.isActive = true
         
         NSLayoutConstraint.activate([
             locationSelector.topAnchor.constraint(equalTo: itemLocationsView.bottomAnchor, constant: padding),
             locationSelector.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             locationSelector.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            locationSelector.heightAnchor.constraint(equalToConstant: 260)
             
         ])
+    }
+    
+    func toggleLocationSelection() {
+        isAddingLocation = !isAddingLocation
+        locationSelectorHeight.constant = isAddingLocation ? 300 : 40
+        locationSelector.storeSelection.setSelectedStore()
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut, animations: { self.view.layoutIfNeeded() })
     }
     
     
@@ -155,10 +179,6 @@ class AddNewItemVC: UIViewController {
     }
     
     
-    
-    
-    
-    
     private func validationAlert(message: String) {
         let alert = UIAlertController(title: message, message: "", preferredStyle: .alert)
         let ok = UIAlertAction(title: "Ok", style: .destructive, handler: { (action) -> Void in })
@@ -169,10 +189,13 @@ class AddNewItemVC: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    
+    private func editSelectedLocation() {
+        
+    }
     
     @objc func dismissVC() {
         selectedItem = nil
+        editingItem = false
         itemNameView.itemNameTextField.text = ""
         
         dismiss(animated: true)
@@ -195,6 +218,7 @@ class AddNewItemVC: UIViewController {
                 newItem.addToItemLocation(aisleToAdd)
             }
             
+       
         }
         
         
@@ -212,30 +236,94 @@ class AddNewItemVC: UIViewController {
     }
 }
 
-extension AddNewItemVC: AisleSelectionViewDelegate, StoreSelectionViewDelegate {
+extension AddNewItemVC: AisleSelectionViewDelegate, StoreSelectionViewDelegate, LocationSelectionViewDelegate, ItemLocationsViewDelegate {
+   
+    func didPressRemoveLocation(aisleToRemove: Aisle) {
+        selectedItem?.removeFromItemLocation(aisleToRemove)
+        
+        do {
+            try context.save()
+        } catch {
+            print("Error removing location. \(error)")
+        }
+        loadLocations()
+        toggleLocations()
+    }
+    
+   func didPressEditLocation() {
+        toggleLocations()
+    }
+    
+    
+    
+    func addToLocationsButtonPressed() {
+        if !editingItem {
+            let newItem = ShoppingItem(context: context)
+            newItem.name = itemNameView.itemNameTextField.text!
+            
+            do {
+                try context.save()
+            } catch {
+                print("Error saving context \(error)")
+            }
+            
+            selectedItem = newItem
+            editingItem = true
+        }
+        
+        
+        if let aisle = locationSelector.aisleSelection.selectedAisle {
+//            if ((selectedItem?.itemLocation?.contains(aisle)) != nil) {
+//                print("This location already exists")
+//            }
+            selectedItem?.addToItemLocation(aisle)
+           
+           // configureItemLocations()
+            
+            do {
+                try context.save()
+            } catch {
+                print("Error adding aisle. \(error)")
+            }
+            loadLocations()
+            toggleLocationSelection()
+            
+        }
+    }
+    
+    func didToggleLocationSelection() {
+        toggleLocationSelection()
+    }
+    
+    func didPressAddStore(alert: UIAlertController) {
+        present(alert, animated: true)
+    }
+    
+    
     func didUpdateStore(selectedStore: GroceryStore) {
         locationSelector.aisleSelection.selectedStore = selectedStore
         locationSelector.aisleSelection.loadAisles()
     }
     
-    func presentStoreAlert(alert: UIAlertController) {
+    func didPressEditStore() {
         let editItemVC = EditLocationVC()
         editItemVC.selectedStore = locationSelector.storeSelection.selectedStore
-        editItemVC.modalPresentationStyle = .overFullScreen
+
         
+        editItemVC.modalPresentationStyle = .overFullScreen
+        editItemVC.isEditingStore = true
         present(editItemVC, animated: false)
     }
     
     func presentAisleAlert(alert: UIAlertController) {
         
-      
+        
         let editItemVC = EditLocationVC()
         editItemVC.modalPresentationStyle = .overFullScreen
         
         present(editItemVC, animated: false)
         
     }
-    
     
 }
 

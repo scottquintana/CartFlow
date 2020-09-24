@@ -43,6 +43,8 @@
 		5ED984D824DC96FD00AF1009 /* CFBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED984D724DC96FD00AF1009 /* CFBodyLabel.swift */; };
 		5EE7A7A024DCAE5A00F82963 /* CFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE7A79F24DCAE5A00F82963 /* CFButton.swift */; };
 		5EF2FC25250A936F0089ADD7 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2FC24250A936F0089ADD7 /* UITextField+Ext.swift */; };
+		5EF2FC28250AC0600089ADD7 /* CFHeaderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2FC27250AC0600089ADD7 /* CFHeaderButton.swift */; };
+		5EF2FC2A250AC0B70089ADD7 /* CFHeaderLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2FC29250AC0B60089ADD7 /* CFHeaderLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +86,8 @@
 		5ED984D724DC96FD00AF1009 /* CFBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFBodyLabel.swift; sourceTree = "<group>"; };
 		5EE7A79F24DCAE5A00F82963 /* CFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFButton.swift; sourceTree = "<group>"; };
 		5EF2FC24250A936F0089ADD7 /* UITextField+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Ext.swift"; sourceTree = "<group>"; };
+		5EF2FC27250AC0600089ADD7 /* CFHeaderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFHeaderButton.swift; sourceTree = "<group>"; };
+		5EF2FC29250AC0B60089ADD7 /* CFHeaderLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFHeaderLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +126,6 @@
 				5E769A8524D862090024FECC /* Assets.xcassets */,
 				5E769A8724D862090024FECC /* LaunchScreen.storyboard */,
 				5E769A8A24D862090024FECC /* Info.plist */,
-				5E769AA224D8C46F0024FECC /* CFTabBarController.swift */,
-				5ED984D524DC689F00AF1009 /* CFTextField.swift */,
 			);
 			path = "Cart Flow";
 			sourceTree = "<group>";
@@ -170,6 +172,7 @@
 				5EE7A79F24DCAE5A00F82963 /* CFButton.swift */,
 				5E92C0C524F022E5004DABB6 /* CFEditButton.swift */,
 				5E7C8AD124F5A2D1006D4153 /* CFMinusButton.swift */,
+				5EF2FC27250AC0600089ADD7 /* CFHeaderButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 		5ECABFE624E308D4000C7142 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				5E769AA224D8C46F0024FECC /* CFTabBarController.swift */,
 				5E769A8024D862010024FECC /* ListSelectVC.swift */,
 				5E769A9E24D8C3E80024FECC /* ShoppingListVC.swift */,
 				5E769AA024D8C4160024FECC /* ItemListVC.swift */,
@@ -193,6 +197,7 @@
 				5E769A9A24D87BC70024FECC /* CFTitleLabel.swift */,
 				5E769A9C24D87D4C0024FECC /* CFSecondaryTitleLabel.swift */,
 				5E92C0C224EF215B004DABB6 /* CFLocationLabel.swift */,
+				5EF2FC29250AC0B60089ADD7 /* CFHeaderLabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -207,7 +212,7 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		5ED95FAD24F55FD30033BB88 /* Views */ = {
+		5ED95FAD24F55FD30033BB88 /* LocationsViews */ = {
 			isa = PBXGroup;
 			children = (
 				5ED95FAE24F5604B0033BB88 /* ItemLocationsView.swift */,
@@ -215,14 +220,15 @@
 				5E33AAF024FD836000F64AF7 /* CFAlertContainerView.swift */,
 				5E0C301E2507CFE900B0CD52 /* EditAislesView.swift */,
 			);
-			path = Views;
+			path = LocationsViews;
 			sourceTree = "<group>";
 		};
 		5ED984CF24DB07AD00AF1009 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				5EF2FC26250A9DA10089ADD7 /* TextFields */,
 				5E7C8ACE24F59BC8006D4153 /* LocationSelectionViews */,
-				5ED95FAD24F55FD30033BB88 /* Views */,
+				5ED95FAD24F55FD30033BB88 /* LocationsViews */,
 				5E92C0C424F022BB004DABB6 /* Buttons */,
 				5E92C0BD24ED8A34004DABB6 /* Pickers */,
 				5ECABFE824E30918000C7142 /* Utilities */,
@@ -243,6 +249,14 @@
 				5E0C30202509520900B0CD52 /* AisleListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		5EF2FC26250A9DA10089ADD7 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				5ED984D524DC689F00AF1009 /* CFTextField.swift */,
+			);
+			path = TextFields;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,7 +286,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Scott Quintana";
 				TargetAttributes = {
 					5E769A7824D862010024FECC = {
@@ -319,6 +333,7 @@
 				5E769AA324D8C46F0024FECC /* CFTabBarController.swift in Sources */,
 				5E769A9B24D87BC70024FECC /* CFTitleLabel.swift in Sources */,
 				5E7C8AD224F5A2D1006D4153 /* CFMinusButton.swift in Sources */,
+				5EF2FC2A250AC0B70089ADD7 /* CFHeaderLabel.swift in Sources */,
 				5E7C8AD724F6FFD3006D4153 /* UIView+Ext.swift in Sources */,
 				5ED95FAF24F5604B0033BB88 /* ItemLocationsView.swift in Sources */,
 				5ED984D824DC96FD00AF1009 /* CFBodyLabel.swift in Sources */,
@@ -334,6 +349,7 @@
 				5E7C8AD424F5A838006D4153 /* AisleSelectionView.swift in Sources */,
 				5E33AAEF24FD48D400F64AF7 /* EditLocationVC.swift in Sources */,
 				5E0C301F2507CFE900B0CD52 /* EditAislesView.swift in Sources */,
+				5EF2FC28250AC0600089ADD7 /* CFHeaderButton.swift in Sources */,
 				5E197ADA24E3211F0046B1E8 /* ShoppingListCell.swift in Sources */,
 				5ED984D424DC674300AF1009 /* AddNewItemVC.swift in Sources */,
 				5E92C0C124EF20C5004DABB6 /* LocationCell.swift in Sources */,
@@ -392,6 +408,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -452,6 +469,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

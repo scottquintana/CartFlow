@@ -19,29 +19,30 @@ class ItemListCell: UITableViewCell {
     let itemLabel = CFTitleLabel(textAlignment: .left, fontSize: 20)
     let editItemButton = CFEditButton()
     var shoppingItem: ShoppingItem? = nil
-    var delegate: ItemListCellDelegate?
+    var delegate: ItemListCellDelegate!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func set(item: ShoppingItem) {
         itemLabel.text = item.name
         self.shoppingItem = item
-        
     }
     
     
     private func configure() {
-        addSubview(itemLabel)
-        addSubview(editItemButton)
+        contentView.addSubview(itemLabel)
+        contentView.addSubview(editItemButton)
         let padding: CGFloat = 20
-        
+        editItemButton.addTarget(self, action: #selector(self.editButtonPressed), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             itemLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -55,11 +56,12 @@ class ItemListCell: UITableViewCell {
             editItemButton.widthAnchor.constraint(equalToConstant: 40)
         ])
         
-        editItemButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        
     }
+    
     
     @objc func editButtonPressed() {
         delegate?.didTapEditItemButton(for: self.shoppingItem!)
-        print("Tapped!")
+        print("hi")
     }
 }

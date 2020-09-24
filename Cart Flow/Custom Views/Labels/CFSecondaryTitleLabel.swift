@@ -21,14 +21,15 @@ class CFSecondaryTitleLabel: UILabel {
     
     convenience init(textAlignment: NSTextAlignment) {
         self.init(frame: .zero)
+        
         self.textAlignment = textAlignment
     }
     
     
     private func configure() {
-        textColor = .label
+        textColor = .black
         font = UIFont.preferredFont(forTextStyle: .body)
-        adjustsFontSizeToFitWidth = true
+        adjustsFontSizeToFitWidth = false
         
         adjustsFontForContentSizeCategory = true
         minimumScaleFactor = 0.75

@@ -35,8 +35,8 @@ class CFPlusButton: UIButton {
         NSLayoutConstraint.activate([
             plusImageView.topAnchor.constraint(equalTo: self.topAnchor),
             plusImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            plusImageView.widthAnchor.constraint(equalToConstant: 20),
-            plusImageView.heightAnchor.constraint(equalToConstant: 20)
+            plusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            plusImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         
         ])
     }

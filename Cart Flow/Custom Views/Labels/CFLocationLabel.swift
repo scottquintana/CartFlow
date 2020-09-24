@@ -28,10 +28,10 @@ class CFLocationLabel: UILabel {
     
     
     private func configure() {
-        textColor = .label
+        textColor = .white
         font = UIFont.preferredFont(forTextStyle: .body)
         adjustsFontForContentSizeCategory = true
-        
+        textAlignment = .center
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.75
         lineBreakMode = .byWordWrapping

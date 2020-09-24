@@ -43,7 +43,7 @@ class ItemListVC: UIViewController {
     var selectedList: ShoppingList?
     var tableView = UITableView()
     var dataSource: DataSource!
-    let addItemVC = AddNewItemVC()
+    
    
     
     var currentSearchText = ""
@@ -101,8 +101,11 @@ class ItemListVC: UIViewController {
     
     
     @objc func addButtonTapped() {
+        let addItemVC = AddNewItemVC()
         addItemVC.editingItem = false
         addItemVC.itemLocations = []
+        addItemVC.isAddingLocation = true
+        
         present(addItemVC, animated: true)
     }
     
@@ -224,9 +227,10 @@ extension ItemListVC: UISearchResultsUpdating {
 
 extension ItemListVC: ItemListCellDelegate {
     func didTapEditItemButton(for item: ShoppingItem) {
-        
+        let addItemVC = AddNewItemVC()
         addItemVC.selectedItem = item
         addItemVC.editingItem = true
+        addItemVC.locationSelector.storeSelection.setSelectedStore()
         present(addItemVC, animated: true)
     }
     

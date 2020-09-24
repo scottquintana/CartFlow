@@ -34,9 +34,9 @@ class CFEditButton: UIButton {
          
          NSLayoutConstraint.activate([
              editImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-             editImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-             editImageView.widthAnchor.constraint(equalToConstant: 30),
-             editImageView.heightAnchor.constraint(equalToConstant: 30)
+             editImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+             editImageView.widthAnchor.constraint(equalToConstant: 26),
+             editImageView.heightAnchor.constraint(equalToConstant: 26)
          
          ])
      }

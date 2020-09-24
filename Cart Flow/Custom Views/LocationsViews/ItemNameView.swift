@@ -10,7 +10,7 @@ import UIKit
 
 class ItemNameView: UIView {
 
-    let itemNameLabel = CFSecondaryTitleLabel()
+    let itemNameButton = CFHeaderButton()
     let itemNameTextField = CFTextField()
     var selectedItem: ShoppingItem?
     
@@ -25,22 +25,22 @@ class ItemNameView: UIView {
     
     
     private func configure() {
-        addSubview(itemNameLabel)
+        addSubview(itemNameButton)
         addSubview(itemNameTextField)
         
         
-        itemNameLabel.text = "Name: (required)"
+        itemNameButton.set(title: "Item name: (required)")
         itemNameTextField.text = selectedItem?.name ?? ""
         let padding: CGFloat = 20
         
         NSLayoutConstraint.activate([
             
-            itemNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
-            itemNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            itemNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            itemNameLabel.heightAnchor.constraint(equalToConstant: 20),
+            itemNameButton.topAnchor.constraint(equalTo: self.topAnchor),
+            itemNameButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            itemNameButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            itemNameButton.heightAnchor.constraint(equalToConstant: 40),
             
-            itemNameTextField.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor, constant: padding),
+            itemNameTextField.topAnchor.constraint(equalTo: itemNameButton.bottomAnchor, constant: padding),
             itemNameTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
             itemNameTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
             itemNameTextField.heightAnchor.constraint(equalToConstant: 36)

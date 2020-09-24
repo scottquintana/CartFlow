@@ -19,6 +19,7 @@ class AisleSelectionView: UIView {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let aislesLabel = CFSecondaryTitleLabel()
+    let aisleDescriptionLabel = CFSecondaryTitleLabel()
     let plusButton = CFPlusButton()
     let minusButton = CFMinusButton()
     
@@ -27,6 +28,7 @@ class AisleSelectionView: UIView {
     var aisles: [Aisle] = []
     var selectedStore: GroceryStore? = nil
     var selectedAisle: Aisle? = nil
+    var rotationAngle: CGFloat!
     
     weak var delegate: AisleSelectionViewDelegate!
     
@@ -34,12 +36,12 @@ class AisleSelectionView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        
         configureAislePicker()
         layoutUI()
-        
-        
-        
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -49,49 +51,59 @@ class AisleSelectionView: UIView {
     private func configureAislePicker() {
         self.aislePicker.delegate = self
         self.aislePicker.dataSource = self
-        
-        aislePicker.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
     private func layoutUI() {
         addSubview(aislesLabel)
-        addSubview(plusButton)
-        addSubview(minusButton)
+        addSubview(aisleDescriptionLabel)
         addSubview(aislePicker)
         
-        aislesLabel.text = "Aisles:"
-        plusButton.addTarget(self, action: #selector(addAislePressed), for: .touchUpInside)
-        minusButton.addTarget(self, action: #selector(removeAislePressed), for: .touchUpInside)
+        let padding: CGFloat = 15
+        rotationAngle = 90 * (.pi/180)
         
-        let padding: CGFloat = 5
+        
+        aislesLabel.text = "Aisle:"
+        aislesLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        aislePicker.setValue(UIColor.black, forKey: "textColor")
+        aislePicker.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        aislePicker.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             aislesLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
             aislesLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            aislesLabel.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor),
+            aislesLabel.widthAnchor.constraint(equalToConstant: 55),
             aislesLabel.heightAnchor.constraint(equalToConstant: 26),
             
-            plusButton.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
-            plusButton.leadingAnchor.constraint(equalTo: aislesLabel.trailingAnchor),
-            plusButton.trailingAnchor.constraint(equalTo: minusButton.leadingAnchor),
+            aisleDescriptionLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+            aisleDescriptionLabel.leadingAnchor.constraint(equalTo: aislesLabel.trailingAnchor, constant: padding),
+            aisleDescriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
+            aisleDescriptionLabel.heightAnchor.constraint(equalToConstant: 26),
             
-            minusButton.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
-            minusButton.leadingAnchor.constraint(equalTo: plusButton.trailingAnchor),
-            minusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            
-            aislePicker.topAnchor.constraint(equalTo: aislesLabel.bottomAnchor, constant: padding),
-            aislePicker.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            aislePicker.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            aislePicker.heightAnchor.constraint(equalToConstant: 70)
+            aislePicker.widthAnchor.constraint(equalToConstant: 40),
+            aislePicker.heightAnchor.constraint(equalToConstant: 400),
+            aislePicker.centerYAnchor.constraint(equalTo: aislesLabel.bottomAnchor, constant: padding),
+            aislePicker.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     
     
+    func setLocationToEdit(aisle: Aisle) {
+        
+        if let aisleToEdit = aisles.firstIndex(of: aisle) {
+            print("aisle: \(aisleToEdit)")
+            aislePicker.selectRow((aisleToEdit), inComponent: 0, animated: false)
+        }
+    }
+    
+    
     func loadAisles() {
+        print("HERE:")
+        print(selectedStore!.name!)
         let request: NSFetchRequest<Aisle> = Aisle.fetchRequest()
         let predicate = NSPredicate(format: "ANY parentStore.name =[cd] %@", selectedStore!.name!)
-        let sortDescriptor = NSSortDescriptor(key: "label", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+        let sortDescriptor = NSSortDescriptor(key: "label", ascending: false, selector: #selector(NSString.localizedStandardCompare(_:)))
         request.predicate = predicate
         request.sortDescriptors = [sortDescriptor]
         
@@ -105,58 +117,6 @@ class AisleSelectionView: UIView {
         
     }
     
-    @objc func addAislePressed() {
-        
-        var textField = UITextField()
-        
-        let alert = UIAlertController(title: "Add new aisle", message: "", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        let action = UIAlertAction(title: "Add aisle", style: .default) { (action) in
-            let newAisle = Aisle(context: self.context)
-            newAisle.label = textField.text!
-            newAisle.parentStore = self.selectedStore
-            
-            self.saveItems()
-            
-            self.loadAisles()
-        }
-        
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Store name"
-            textField = alertTextField
-        }
-        
-        alert.addAction(action)
-        alert.addAction(cancel)
-        
-        delegate.presentAisleAlert(alert: alert)
-    }
-    
-    @objc func removeAislePressed() {
-        
-        let alert = UIAlertController(title: "Remove Aisle", message: "", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        let action = UIAlertAction(title: "Remove", style: .default) { (action) in
-            
-            
-            if self.selectedAisle != nil {
-                self.context.delete(self.selectedAisle!)
-            }
-            
-            self.saveItems()
-            
-            
-            self.loadAisles()
-            
-        }
-        
-        alert.message = "Are you sure you want to remove this aisle? The items in it will not be deleted, however they will lose their location"
-        
-        alert.addAction(action)
-        alert.addAction(cancel)
-        
-        delegate.presentAisleAlert(alert: alert)
-    }
     
     private func saveItems() {
         do {
@@ -179,19 +139,37 @@ extension AisleSelectionView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let label = aisles[row].label!
-        
-        if let description = aisles[row].desc {
-            return "\(label) - \(description)"
-        } else {
-            return label
-        }
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 50
     }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 50
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let view = UIView()
+        view.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        view.transform = CGAffineTransform(rotationAngle: -rotationAngle)
+        
+        let label = CFSecondaryTitleLabel()
+        label.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        label.textAlignment = .center
+        label.text = aisles[row].label
+        view.addSubview(label)
+        
+        return view
+    }
+    
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedAisle = aisles[row]
+        if aisles.count > 0 {
+            selectedAisle = aisles[row]
+            aisleDescriptionLabel.text = selectedAisle?.desc
+        }
+        
+        
     }
-    
-    
 }

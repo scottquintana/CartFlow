@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Aisle" representedClassName="Aisle" syncable="YES" codeGenerationType="class">
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="label" attributeType="String"/>
@@ -8,7 +8,7 @@
     </entity>
     <entity name="GroceryStore" representedClassName="GroceryStore" syncable="YES" codeGenerationType="class">
         <attribute name="colorAsHex" optional="YES" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
+        <attribute name="name" attributeType="String" minValueString="1"/>
         <relationship name="aisles" toMany="YES" deletionRule="Cascade" destinationEntity="Aisle" inverseName="parentStore" inverseEntity="Aisle"/>
     </entity>
     <entity name="LocationForStore" representedClassName=".LocationForStore" syncable="YES" codeGenerationType="class">
