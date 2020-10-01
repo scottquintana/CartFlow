@@ -14,6 +14,7 @@
 		5E33AAED24F9920B00F64AF7 /* ItemNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E33AAEC24F9920B00F64AF7 /* ItemNameView.swift */; };
 		5E33AAEF24FD48D400F64AF7 /* EditLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */; };
 		5E33AAF124FD836100F64AF7 /* CFAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E33AAF024FD836000F64AF7 /* CFAlertContainerView.swift */; };
+		5E44DD25252551E800E0E916 /* CFTitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E44DD24252551E800E0E916 /* CFTitleButton.swift */; };
 		5E769A7D24D862010024FECC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E769A7C24D862010024FECC /* AppDelegate.swift */; };
 		5E769A7F24D862010024FECC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E769A7E24D862010024FECC /* SceneDelegate.swift */; };
 		5E769A8124D862010024FECC /* ListSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E769A8024D862010024FECC /* ListSelectVC.swift */; };
@@ -36,6 +37,8 @@
 		5E92C0C124EF20C5004DABB6 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E92C0C024EF20C5004DABB6 /* LocationCell.swift */; };
 		5E92C0C324EF215B004DABB6 /* CFLocationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E92C0C224EF215B004DABB6 /* CFLocationLabel.swift */; };
 		5E92C0C624F022E5004DABB6 /* CFEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E92C0C524F022E5004DABB6 /* CFEditButton.swift */; };
+		5E9C3E14251D5325009A7C26 /* StoreFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C3E13251D5325009A7C26 /* StoreFilterVC.swift */; };
+		5EC1ADE4252646B30001F684 /* ClearListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1ADE3252646B30001F684 /* ClearListVC.swift */; };
 		5ED95FAF24F5604B0033BB88 /* ItemLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED95FAE24F5604B0033BB88 /* ItemLocationsView.swift */; };
 		5ED984D224DB188C00AF1009 /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED984D124DB188C00AF1009 /* ItemListCell.swift */; };
 		5ED984D424DC674300AF1009 /* AddNewItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED984D324DC674200AF1009 /* AddNewItemVC.swift */; };
@@ -55,6 +58,7 @@
 		5E33AAEC24F9920B00F64AF7 /* ItemNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNameView.swift; sourceTree = "<group>"; };
 		5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationVC.swift; sourceTree = "<group>"; };
 		5E33AAF024FD836000F64AF7 /* CFAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFAlertContainerView.swift; sourceTree = "<group>"; };
+		5E44DD24252551E800E0E916 /* CFTitleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFTitleButton.swift; sourceTree = "<group>"; };
 		5E769A7924D862010024FECC /* Cart Flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cart Flow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E769A7C24D862010024FECC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E769A7E24D862010024FECC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		5E92C0C024EF20C5004DABB6 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		5E92C0C224EF215B004DABB6 /* CFLocationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFLocationLabel.swift; sourceTree = "<group>"; };
 		5E92C0C524F022E5004DABB6 /* CFEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFEditButton.swift; sourceTree = "<group>"; };
+		5E9C3E13251D5325009A7C26 /* StoreFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFilterVC.swift; sourceTree = "<group>"; };
+		5EC1ADE3252646B30001F684 /* ClearListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearListVC.swift; sourceTree = "<group>"; };
 		5ED95FAE24F5604B0033BB88 /* ItemLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLocationsView.swift; sourceTree = "<group>"; };
 		5ED984D124DB188C00AF1009 /* ItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
 		5ED984D324DC674200AF1009 /* AddNewItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemVC.swift; sourceTree = "<group>"; };
@@ -173,6 +179,7 @@
 				5E92C0C524F022E5004DABB6 /* CFEditButton.swift */,
 				5E7C8AD124F5A2D1006D4153 /* CFMinusButton.swift */,
 				5EF2FC27250AC0600089ADD7 /* CFHeaderButton.swift */,
+				5E44DD24252551E800E0E916 /* CFTitleButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -186,6 +193,8 @@
 				5E769AA024D8C4160024FECC /* ItemListVC.swift */,
 				5ED984D324DC674200AF1009 /* AddNewItemVC.swift */,
 				5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */,
+				5E9C3E13251D5325009A7C26 /* StoreFilterVC.swift */,
+				5EC1ADE3252646B30001F684 /* ClearListVC.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -330,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E7FDB7524E1B28800BE904F /* DataModel.xcdatamodeld in Sources */,
+				5E44DD25252551E800E0E916 /* CFTitleButton.swift in Sources */,
 				5E769AA324D8C46F0024FECC /* CFTabBarController.swift in Sources */,
 				5E769A9B24D87BC70024FECC /* CFTitleLabel.swift in Sources */,
 				5E7C8AD224F5A2D1006D4153 /* CFMinusButton.swift in Sources */,
@@ -346,7 +356,9 @@
 				5EF2FC25250A936F0089ADD7 /* UITextField+Ext.swift in Sources */,
 				5E7C8AD024F59E5A006D4153 /* StoreSelectionView.swift in Sources */,
 				5ED984D624DC689F00AF1009 /* CFTextField.swift in Sources */,
+				5E9C3E14251D5325009A7C26 /* StoreFilterVC.swift in Sources */,
 				5E7C8AD424F5A838006D4153 /* AisleSelectionView.swift in Sources */,
+				5EC1ADE4252646B30001F684 /* ClearListVC.swift in Sources */,
 				5E33AAEF24FD48D400F64AF7 /* EditLocationVC.swift in Sources */,
 				5E0C301F2507CFE900B0CD52 /* EditAislesView.swift in Sources */,
 				5EF2FC28250AC0600089ADD7 /* CFHeaderButton.swift in Sources */,
@@ -433,7 +445,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -488,7 +500,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

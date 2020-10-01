@@ -14,6 +14,11 @@ enum SFSymbols {
     static let plus = UIImage(systemName: "plus.circle.fill")
     static let edit = UIImage(systemName: "gear")
     static let minus = UIImage(systemName: "minus.circle.fill")
+    static let circle = UIImage(systemName: "circle")
+    static let flag = UIImage(systemName: "flag.circle")
+    static let check = UIImage(systemName: "checkmark.circle.fill")
+    static let downArrow = UIImage(systemName: "chevron.down")
+    static let doneCheck = UIImage(systemName: "checkmark.square")
 }
 
 enum Colors {
@@ -22,5 +27,7 @@ enum Colors {
     static let green = UIColor(red: 0.58, green: 0.72, blue: 0.75, alpha: 1.00)
     static let tan = UIColor(red: 0.84, green: 0.78, blue: 0.74, alpha: 1.00)
     static let red = UIColor(red: 0.47, green: 0.35, blue: 0.39, alpha: 1.00)
+    static let checkGreen = UIColor(red: 0.15, green: 0.47, blue: 0.00, alpha: 1.00)
+    static let yellow = UIColor(red: 0.96, green: 0.80, blue: 0.36, alpha: 1.00)
     
 }

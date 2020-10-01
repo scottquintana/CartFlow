@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 
+
 class ItemListVC: UIViewController {
     
     class DataSource: UITableViewDiffableDataSource<Section, ShoppingItem> {
@@ -72,7 +73,9 @@ class ItemListVC: UIViewController {
     }
     
     func configureNavItems() {
-        self.parent?.title = "All Items"
+        self.parent?.navigationItem.titleView = nil
+        self.parent?.title = "Your items"
+        
         let addButton =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
         self.parent?.navigationItem.rightBarButtonItem = addButton
         
@@ -129,7 +132,10 @@ class ItemListVC: UIViewController {
     
     func addToShoppingList(item: ShoppingItem) {
         if (item.parentList?.contains(self.selectedList!))! {
+            item.inCart = false
+            item.outOfStock = false
             item.removeFromParentList(selectedList!)
+            
         } else {
             item.addToParentList(selectedList!)
         }
@@ -207,6 +213,13 @@ extension ItemListVC: UITableViewDelegate {
 
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         addToShoppingList(item: item)
+       
+        if selectedList!.items!.count > 0 {
+        self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
+        } else {
+            self.tabBarController?.tabBar.items![0].badgeValue = nil
+        }
+       
 
     }
 }

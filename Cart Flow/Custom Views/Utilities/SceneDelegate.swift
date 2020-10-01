@@ -31,10 +31,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func configureNavigationBar() {
-        UINavigationBar.appearance().tintColor = Colors.lightBar
-        UINavigationBar.appearance().barTintColor = Colors.darkBar
-        UINavigationBar.appearance().backgroundColor = Colors.darkBar
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : Colors.lightBar]
+        UINavigationBar.appearance().tintColor = .black
+        UINavigationBar.appearance().barTintColor = .white
+        UINavigationBar.appearance().backgroundColor = .white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        
         
     }
     

@@ -26,17 +26,22 @@ class CFTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewControllers = [createListsVC(), createItemListVC()]
-        tabBar.barTintColor = Colors.darkBar
-        tabBar.tintColor = Colors.lightBar
-       
+        tabBar.barTintColor = .white
+        tabBar.tintColor = .black
+        tabBar.items![0].badgeColor = Colors.red
+        if shoppingList.items!.count > 0 {
+            tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
+        }
     }
+    
+ 
     
     
     func createListsVC() -> UIViewController {
         let shoppingListVC = ShoppingListVC(shoppingList: shoppingList)
         shoppingListVC.title = "Shopping List"
         shoppingListVC.tabBarItem = UITabBarItem(title: "Shopping List", image: SFSymbols.cart, tag: 0)
-            
+
         return shoppingListVC
     }
     

@@ -19,6 +19,7 @@
     <entity name="ShoppingItem" representedClassName=".ShoppingItem" syncable="YES" codeGenerationType="class">
         <attribute name="descripton" optional="YES" attributeType="String"/>
         <attribute name="inCart" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastPurchased" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="outOfStock" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="itemLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Aisle" inverseName="itemsInAisle" inverseEntity="Aisle"/>
@@ -34,7 +35,7 @@
         <element name="Aisle" positionX="-259.3125" positionY="-162.94140625" width="128" height="103"/>
         <element name="GroceryStore" positionX="-54.6953125" positionY="-203.22265625" width="128" height="88"/>
         <element name="LocationForStore" positionX="193.25" positionY="-164.7578125" width="128" height="88"/>
-        <element name="ShoppingItem" positionX="21.40234375" positionY="-101.76171875" width="128" height="148"/>
+        <element name="ShoppingItem" positionX="21.40234375" positionY="-101.76171875" width="128" height="163"/>
         <element name="ShoppingList" positionX="-415.0546875" positionY="-52.1796875" width="128" height="88"/>
     </elements>
 </model>

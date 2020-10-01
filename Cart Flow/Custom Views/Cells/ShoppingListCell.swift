@@ -13,6 +13,7 @@ class ShoppingListCell: UITableViewCell {
     
     let itemLabel = CFTitleLabel(textAlignment: .left, fontSize: 20)
     let backgroundBox = UIView()
+    let itemStatusImage = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,21 +27,32 @@ class ShoppingListCell: UITableViewCell {
     func set(item: ShoppingItem) {
         itemLabel.text = item.name
         
+        
+        if item.inCart {
+            itemStatusImage.image = SFSymbols.check
+            itemStatusImage.tintColor = Colors.checkGreen
+        } else if item.outOfStock {
+            itemStatusImage.image = SFSymbols.flag
+            itemStatusImage.tintColor = Colors.yellow
+        } else {
+            itemStatusImage.image = SFSymbols.circle
+            itemStatusImage.tintColor = .black
+        }
     }
     
     
     private func configure() {
         addSubview(backgroundBox)
         backgroundBox.addSubview(itemLabel)
+        backgroundBox.addSubview(itemStatusImage)
         
-        let padding: CGFloat = 20
-        backgroundColor = .none
-        backgroundBox.backgroundColor = Colors.darkBar
-        backgroundBox.layer.cornerRadius = 10
-        backgroundBox.layer.borderColor = UIColor.black.cgColor
-        //backgroundBox.layer.borderWidth = 1
+        let padding: CGFloat = 14
+        backgroundColor = Colors.green
+        backgroundBox.backgroundColor = .white
+        backgroundBox.layer.cornerRadius = 16
         backgroundBox.translatesAutoresizingMaskIntoConstraints = false
-        itemLabel.textColor = .white
+        itemLabel.textColor = .black
+        itemStatusImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             
@@ -50,11 +62,15 @@ class ShoppingListCell: UITableViewCell {
             backgroundBox.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -6),
             backgroundBox.heightAnchor.constraint(equalToConstant: 50),
             
-           
+            itemStatusImage.centerYAnchor.constraint(equalTo: backgroundBox.centerYAnchor),
+            itemStatusImage.leadingAnchor.constraint(equalTo: backgroundBox.leadingAnchor, constant: padding),
+            itemStatusImage.widthAnchor.constraint(equalToConstant: 25),
+            itemStatusImage.heightAnchor.constraint(equalToConstant: 25),
+            
             itemLabel.centerYAnchor.constraint(equalTo: backgroundBox.centerYAnchor),
-            itemLabel.leadingAnchor.constraint(equalTo: backgroundBox.leadingAnchor, constant: padding),
+            itemLabel.leadingAnchor.constraint(equalTo: itemStatusImage.trailingAnchor, constant: padding),
             itemLabel.trailingAnchor.constraint(equalTo: backgroundBox.trailingAnchor, constant: -padding),
-            itemLabel.heightAnchor.constraint(equalToConstant: 24)
+            itemLabel.heightAnchor.constraint(equalToConstant: 25)
         ])
     }
     
