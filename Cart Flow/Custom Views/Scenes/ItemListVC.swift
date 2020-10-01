@@ -137,6 +137,7 @@ class ItemListVC: UIViewController {
             item.removeFromParentList(selectedList!)
             
         } else {
+            item.inCart = false
             item.addToParentList(selectedList!)
         }
         saveItems()
