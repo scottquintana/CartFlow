@@ -12,11 +12,11 @@ import CoreData
 class ShoppingListVC: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var shoppingList: ShoppingList!
     var tableView = UITableView()
-    let itemListVC = ItemListVC()
     var fetchController: NSFetchedResultsController<ShoppingItem>!
-    var clearListButton: UIBarButtonItem!
+    
     var selectedSectionName: String? = nil
     var currentStore: String? = nil
     let titleButton = CFTitleButton()
@@ -25,11 +25,12 @@ class ShoppingListVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTitleView()
         view.backgroundColor = Colors.green
+        
+        configureTitleView()
     }
     
-   
+    
     override func viewWillAppear(_ animated: Bool) {
         configureNavItems()
         configureTableView()
@@ -58,30 +59,20 @@ class ShoppingListVC: UIViewController {
         titlebuttonWidth.isActive = true
         
         titleButton.addTarget(self, action: #selector(sortLists), for: .touchUpInside)
-       
+        
     }
     
     
     func configureNavItems() {
+        let clearListButton = UIBarButtonItem(image: SFSymbols.doneCheck, style: .plain, target: self, action: #selector(clearList))
         
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = false
         
-       
-        clearListButton = UIBarButtonItem(image: SFSymbols.doneCheck, style: .plain, target: self, action: #selector(clearList))
-        
-      
-        
         self.parent?.navigationItem.titleView = titleButton
-        
         self.parent?.navigationItem.rightBarButtonItem = clearListButton
         self.parent?.navigationItem.searchController = nil
-       
     }
-    
-    
-    
-    
     
     
     func configureTableView() {
@@ -99,6 +90,7 @@ class ShoppingListVC: UIViewController {
         tableView.register(ShoppingListCell.self, forCellReuseIdentifier: ShoppingListCell.reuseID)
     }
     
+    
     @objc func clearList() {
         let clearListVC = ClearListVC()
         clearListVC.delegate = self
@@ -106,6 +98,7 @@ class ShoppingListVC: UIViewController {
         clearListVC.modalTransitionStyle = .crossDissolve
         present(clearListVC, animated: true)
     }
+    
     
     @objc func sortLists() {
         let storeFilterVC = StoreFilterVC()
@@ -120,7 +113,7 @@ class ShoppingListVC: UIViewController {
             
             
             storePopoverPC.delegate = self
-           
+            
         }
         
         present(storeFilterVC, animated: true)
@@ -164,8 +157,6 @@ class ShoppingListVC: UIViewController {
                         for location in locations {
                             
                             if location.parentStore!.name == currentStore {
-                                
-                                
                                 if let aisle = location.label {
                                     
                                     // Make a model for this that doesn't invole core data?
@@ -179,9 +170,7 @@ class ShoppingListVC: UIViewController {
                             }
                         }
                     }
-                    
                     saveList()
-                   
                 }
             } catch {
                 print(error)
@@ -216,10 +205,10 @@ class ShoppingListVC: UIViewController {
     }
 }
 
-//MARK: - Extensions
+//MARK: - StoreFilterVCDelegate
 
-
-extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UIPopoverPresentationControllerDelegate, StoreFilterVCDelegate {
+extension ShoppingListVC: StoreFilterVCDelegate {
+    
     func didResetFilter() {
         currentStore = nil
         selectedSectionName = nil
@@ -239,7 +228,11 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         
         loadItems()
     }
-    
+}
+
+//MARK: - TableView & FetchedResults Extensions
+
+extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListCell.reuseID, for: indexPath) as! ShoppingListCell
@@ -250,6 +243,7 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let entity = fetchController.object(at: indexPath)
         entity.removeFromParentList(shoppingList)
@@ -257,6 +251,7 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         saveList()
         loadItems()
     }
+    
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let outOfStockAction = UIContextualAction(style: .normal, title: "Out of stock") { (action, view, bool) in
@@ -277,13 +272,15 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         return fetchController.sections?[section].numberOfObjects ?? 0
     }
     
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         if let frc = fetchController {
             return frc.sections!.count
-            
         }
+        
         return 0
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entity = fetchController.object(at: indexPath)
@@ -310,13 +307,18 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         
         return returnedView
     }
-    
+}
+
+//MARK: - UIPopoverPresentationControllerDelegate
+
+extension ShoppingListVC: UIPopoverPresentationControllerDelegate {
     
     public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
-    
 }
+
+//MARK: - ClearListVCDelegate
 
 extension ShoppingListVC: ClearListVCDelegate {
     func didFinishShopping() {
@@ -330,35 +332,31 @@ extension ShoppingListVC: ClearListVCDelegate {
             }
             saveList()
             loadItems()
-            
-            if shoppingList!.items!.count > 0 {
-            self.tabBarController?.tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
-            } else {
-                self.tabBarController?.tabBar.items![0].badgeValue = nil
-            }
+            updateTabBarBadge()
         }
     }
     
+    
     func didClearCart() {
         if let items = fetchController.fetchedObjects {
-            
             for item in items {
                 item.inCart = false
                 item.outOfStock = false
+                item.itemLocationInStore = nil
                 item.removeFromParentList(shoppingList)
             }
             saveList()
             loadItems()
-            
-            if shoppingList!.items!.count > 0 {
-            self.tabBarController?.tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
-            } else {
-                self.tabBarController?.tabBar.items![0].badgeValue = nil
-            }
+            updateTabBarBadge()
         }
-        
-        
     }
     
     
+    func updateTabBarBadge() {
+        if shoppingList!.items!.count > 0 {
+            self.tabBarController?.tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
+        } else {
+            self.tabBarController?.tabBar.items![0].badgeValue = nil
+        }
+    }
 }

@@ -13,14 +13,14 @@ class EditLocationVC: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    let locationLabel = CFTitleLabel(textAlignment: .left, fontSize: 30)
+
     let storeTextField = CFTextField()
     let aisleContainer = UIView()
     let editAislesView = EditAislesView()
     
     let aislesTableView = UITableView()
     
-    let deleteButton = CFButton()
+ 
     let cancelButton = CFButton()
     let saveButton = CFButton()
     
@@ -51,6 +51,8 @@ class EditLocationVC: UIViewController {
     
     
     private func configureStore() {
+        let locationLabel = CFTitleLabel(textAlignment: .left, fontSize: 30)
+        
         view.addSubview(locationLabel)
         view.addSubview(storeTextField)
         
@@ -144,6 +146,8 @@ class EditLocationVC: UIViewController {
     
     
     private func configureButtons() {
+        let deleteButton = CFButton()
+        
         view.addSubview(deleteButton)
         view.addSubview(cancelButton)
         view.addSubview(saveButton)
@@ -204,14 +208,10 @@ class EditLocationVC: UIViewController {
         alert.addAction(cancel)
         alert.addAction(action)
         present(alert, animated: true)
-        
     }
     
     
     @objc private func cancelButtonPressed() {
-        
-        
-        
         dismiss(animated: false)
     }
     
@@ -227,7 +227,7 @@ class EditLocationVC: UIViewController {
     }
 }
 
-//MARK: - Extensions
+//MARK: - TableView Extensions
 
 extension EditLocationVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -246,6 +246,8 @@ extension EditLocationVC: UITableViewDelegate, UITableViewDataSource {
         editAislesView.loadAisleToEdit(selectedAisle: aisle)
     }
 }
+
+//MARK: - EditAisleViewDelegate
 
 extension EditLocationVC: EditAisleViewDelegate {
     func didAddAisle(aisle: Aisle) {
@@ -276,8 +278,5 @@ extension EditLocationVC: EditAisleViewDelegate {
             print("Error saving.")
         }
         loadAisles()
-        
-        
     }
-    
 }

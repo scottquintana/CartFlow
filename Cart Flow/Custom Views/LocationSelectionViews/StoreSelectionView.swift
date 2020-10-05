@@ -215,6 +215,7 @@ extension StoreSelectionView: UIPickerViewDelegate, UIPickerViewDataSource {
             
         }
     }
+    
 }
 
 extension StoreSelectionView: NSFetchedResultsControllerDelegate {

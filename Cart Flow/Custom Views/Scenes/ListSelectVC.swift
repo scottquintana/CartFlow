@@ -106,7 +106,7 @@ class ListSelectVC: UIViewController {
 
 }
 
-//MARK: - Extensions
+//MARK: - TableView Extensions
 
 extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

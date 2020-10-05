@@ -19,10 +19,12 @@ class LocationCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         configure()
     }
     
@@ -30,11 +32,13 @@ class LocationCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+ 
     private func configure() {
         addSubview(locationBox)
         locationBox.addSubview(storeLabel)
         locationBox.addSubview(aisleLabel)
         locationBox.backgroundColor = .black
+        
         locationBox.layer.cornerRadius = 10
         locationBox.translatesAutoresizingMaskIntoConstraints = false
         

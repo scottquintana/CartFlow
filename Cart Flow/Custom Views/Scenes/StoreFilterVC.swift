@@ -29,17 +29,20 @@ class StoreFilterVC: UIViewController {
         view.backgroundColor = .white
         configure()
         loadStores()
-        
     }
+    
     
     private func configure() {
         view.addSubview(storesTableView)
         view.addSubview(button)
+       
         storesTableView.translatesAutoresizingMaskIntoConstraints = false
         storesTableView.backgroundColor = .white
         storesTableView.delegate = self
         storesTableView.dataSource = self
+        
         button.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
             button.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -52,6 +55,7 @@ class StoreFilterVC: UIViewController {
             storesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
     
     private func loadStores() {
         let request: NSFetchRequest<GroceryStore> = GroceryStore.fetchRequest()
@@ -66,14 +70,14 @@ class StoreFilterVC: UIViewController {
         }
     }
   
+    
     @objc func dismissVC() {
         delegate.didResetFilter()
         dismiss(animated: true)
     }
-    
 }
 
-//MARK: - Extensions
+//MARK: - TableView Extensions
 
 extension StoreFilterVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -94,6 +98,4 @@ extension StoreFilterVC: UITableViewDelegate, UITableViewDataSource {
         delegate.didSelectStore(store: selectedStore)
         dismiss(animated: true)
     }
-    
-    
 }

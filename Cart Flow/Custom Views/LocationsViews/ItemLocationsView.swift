@@ -88,12 +88,7 @@ class ItemLocationsView: UIView {
     }
     
     func configureFlowLayout() -> UICollectionViewFlowLayout {
-        let width: CGFloat = 300 //frame.width
-        print(width)
         let padding: CGFloat = 5
-        let minimumItemSpacing: CGFloat = 10
-        let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
-        let itemWidth = availableWidth / 3
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -110,19 +105,20 @@ class ItemLocationsView: UIView {
         self.itemLocations = itemLocations
         
         self.locationsList.reloadData()
-       
-    
     }
+    
     
     @objc func removeLocation() {
         delegate.didPressRemoveLocation(aisleToRemove: selectedLocation!)
     }
     
+    
     @objc func cancelSelectedLocation() {
         delegate?.didPressEditLocation()
     }
-    
 }
+
+//MARK: - CollectionView Extensions
 
 extension ItemLocationsView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -140,10 +136,26 @@ extension ItemLocationsView: UICollectionViewDelegate, UICollectionViewDataSourc
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCell = locationsList.dequeueReusableCell(withReuseIdentifier: LocationCell.reuseID, for: indexPath) as! LocationCell
-        selectedCell.locationBox.backgroundColor = Colors.red
+        
+        
+        
+        
         
         selectedLocation = itemLocations[indexPath.item]
         delegate?.didPressEditLocation()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+      
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! LocationCell
+        selectedCell.locationBox.backgroundColor = Colors.red
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! LocationCell
+        selectedCell.locationBox.backgroundColor = .black
     }
 }

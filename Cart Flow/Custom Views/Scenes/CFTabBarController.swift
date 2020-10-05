@@ -13,15 +13,15 @@ class CFTabBarController: UITabBarController {
     var shoppingList: ShoppingList!
     
     init(listSelected: ShoppingList) {
-        
         self.shoppingList = listSelected
         super.init(nibName: nil, bundle: nil)
-        
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +35,6 @@ class CFTabBarController: UITabBarController {
     }
     
  
-    
-    
     func createListsVC() -> UIViewController {
         let shoppingListVC = ShoppingListVC(shoppingList: shoppingList)
         shoppingListVC.title = "Shopping List"
