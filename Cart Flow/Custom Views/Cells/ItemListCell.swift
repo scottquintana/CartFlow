@@ -75,13 +75,10 @@ class ItemListCell: UITableViewCell {
             editItemButton.heightAnchor.constraint(equalToConstant: 40),
             editItemButton.widthAnchor.constraint(equalToConstant: 40)
         ])
-        
-        
     }
     
     
     @objc func editButtonPressed() {
         delegate?.didTapEditItemButton(for: self.shoppingItem!)
-        print("hi")
     }
 }

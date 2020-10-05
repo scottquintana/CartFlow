@@ -172,7 +172,7 @@ class AddNewItemVC: UIViewController {
         addButton.backgroundColor = .black
         
         NSLayoutConstraint.activate([
-            addButton.topAnchor.constraint(equalTo: locationSelector.bottomAnchor, constant: 50),
+            addButton.topAnchor.constraint(equalTo: locationSelector.bottomAnchor, constant: 20),
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             addButton.heightAnchor.constraint(equalToConstant: 50)

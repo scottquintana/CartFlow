@@ -99,8 +99,6 @@ class AisleSelectionView: UIView {
     
     
     func loadAisles() {
-        print("HERE:")
-        print(selectedStore!.name!)
         let request: NSFetchRequest<Aisle> = Aisle.fetchRequest()
         let predicate = NSPredicate(format: "ANY parentStore.name =[cd] %@", selectedStore!.name!)
         let sortDescriptor = NSSortDescriptor(key: "label", ascending: false, selector: #selector(NSString.localizedStandardCompare(_:)))
