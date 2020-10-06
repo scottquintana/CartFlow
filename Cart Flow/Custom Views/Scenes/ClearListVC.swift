@@ -33,10 +33,16 @@ class ClearListVC: UIViewController {
         
         configureContainerView()
         configureButtons()
+        callHapticFeedback()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
     }
     
-
+    
+    private func callHapticFeedback(){
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
+    }
+    
+    
     private func configureContainerView() {
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 16

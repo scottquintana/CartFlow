@@ -49,7 +49,7 @@ class LocationSelectionView: UIView {
         stackView.addArrangedSubview(storeSelection)
         stackView.addArrangedSubview(aisleSelection)
     }
-    
+        
     
     func layoutUI() {
         addSubview(addLocationButton)

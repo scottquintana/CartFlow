@@ -166,10 +166,16 @@ class EditAislesView: UIView {
         descriptionTextField.text = ""
         isEditingAisle = false
         addUpdateButton.set(backgroundColor: Colors.darkBar, title: "Add aisle")
+        
+        self.endEditing(true)
+        
     }
     
     
     @objc func addUpdateAisleInfo() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+        
         if isEditingAisle {
             self.selectedAisle?.label = aisleTextField.text
             self.selectedAisle?.desc = descriptionTextField.text
@@ -187,6 +193,8 @@ class EditAislesView: UIView {
         descriptionTextField.text = ""
         isEditingAisle = false
         addUpdateButton.set(backgroundColor: Colors.darkBar, title: "Add aisle")
+        
+        self.endEditing(true)
     }
 
 

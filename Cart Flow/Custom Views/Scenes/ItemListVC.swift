@@ -207,12 +207,16 @@ extension ItemListVC: UITableViewDelegate {
 
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         addToShoppingList(item: item)
-       
+        
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        
         if selectedList!.items!.count > 0 {
         self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
         } else {
             self.tabBarController?.tabBar.items![0].badgeValue = nil
         }
+       
        
 
     }
