@@ -34,7 +34,7 @@ class AddNewItemVC: UIViewController {
     var isAddingLocation = false
     var editingItem = false
    
-    var delegate: AddNewItemVCDelegate!
+    weak var delegate: AddNewItemVCDelegate!
     
     let padding: CGFloat = 20
     

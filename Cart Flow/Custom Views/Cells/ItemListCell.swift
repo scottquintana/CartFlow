@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ItemListCellDelegate {
+protocol ItemListCellDelegate: class {
     func didTapEditItemButton(for item: ShoppingItem)
 }
 
@@ -20,7 +20,7 @@ class ItemListCell: UITableViewCell {
     let lastPurchasedLabel = UILabel()
     let editItemButton = CFEditButton()
     var shoppingItem: ShoppingItem? = nil
-    var delegate: ItemListCellDelegate!
+    weak var delegate: ItemListCellDelegate!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,6 +41,8 @@ class ItemListCell: UITableViewCell {
         if let lastPurchasedDate = item.lastPurchased {
             let dateString = dateFormatter.string(from: lastPurchasedDate)
             lastPurchasedLabel.text = "Last purchased on: \(dateString)"
+        } else {
+            lastPurchasedLabel.text = "Item has no record of purchase"
         }
     
         self.shoppingItem = item
