@@ -13,7 +13,6 @@ enum SFSymbols {
     static let list = UIImage(systemName: "list.bullet")
     static let plus = UIImage(systemName: "plus.circle.fill")
     static let edit = UIImage(systemName: "gear")
-    static let minus = UIImage(systemName: "minus.circle.fill")
     static let circle = UIImage(systemName: "circle")
     static let flag = UIImage(systemName: "flag.circle")
     static let check = UIImage(systemName: "checkmark.circle.fill")

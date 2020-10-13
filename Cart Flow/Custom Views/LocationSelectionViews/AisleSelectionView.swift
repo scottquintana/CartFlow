@@ -21,7 +21,7 @@ class AisleSelectionView: UIView {
     let aislesLabel = CFSecondaryTitleLabel()
     let aisleDescriptionLabel = CFSecondaryTitleLabel()
     let plusButton = CFPlusButton()
-    let minusButton = CFMinusButton()
+
     
     let aislePicker = UIPickerView()
     

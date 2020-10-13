@@ -29,7 +29,6 @@
 		5E769AA524D8C5690024FECC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E769AA424D8C5690024FECC /* Constants.swift */; };
 		5E7C8ACD24F59BBE006D4153 /* LocationSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8ACC24F59BBE006D4153 /* LocationSelectionView.swift */; };
 		5E7C8AD024F59E5A006D4153 /* StoreSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8ACF24F59E5A006D4153 /* StoreSelectionView.swift */; };
-		5E7C8AD224F5A2D1006D4153 /* CFMinusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8AD124F5A2D1006D4153 /* CFMinusButton.swift */; };
 		5E7C8AD424F5A838006D4153 /* AisleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8AD324F5A838006D4153 /* AisleSelectionView.swift */; };
 		5E7C8AD724F6FFD3006D4153 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8AD624F6FFD3006D4153 /* UIView+Ext.swift */; };
 		5E7FDB7524E1B28800BE904F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5E7FDB7324E1B28800BE904F /* DataModel.xcdatamodeld */; };
@@ -76,7 +75,6 @@
 		5E769AA424D8C5690024FECC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5E7C8ACC24F59BBE006D4153 /* LocationSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionView.swift; sourceTree = "<group>"; };
 		5E7C8ACF24F59E5A006D4153 /* StoreSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSelectionView.swift; sourceTree = "<group>"; };
-		5E7C8AD124F5A2D1006D4153 /* CFMinusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFMinusButton.swift; sourceTree = "<group>"; };
 		5E7C8AD324F5A838006D4153 /* AisleSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AisleSelectionView.swift; sourceTree = "<group>"; };
 		5E7C8AD624F6FFD3006D4153 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		5E7FDB7424E1B28800BE904F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 				5E1F51DB24E59F6D0096D3A3 /* CFPlusButton.swift */,
 				5EE7A79F24DCAE5A00F82963 /* CFButton.swift */,
 				5E92C0C524F022E5004DABB6 /* CFEditButton.swift */,
-				5E7C8AD124F5A2D1006D4153 /* CFMinusButton.swift */,
 				5EF2FC27250AC0600089ADD7 /* CFHeaderButton.swift */,
 				5E44DD24252551E800E0E916 /* CFTitleButton.swift */,
 			);
@@ -345,7 +342,6 @@
 				5E44DD25252551E800E0E916 /* CFTitleButton.swift in Sources */,
 				5E769AA324D8C46F0024FECC /* CFTabBarController.swift in Sources */,
 				5E769A9B24D87BC70024FECC /* CFTitleLabel.swift in Sources */,
-				5E7C8AD224F5A2D1006D4153 /* CFMinusButton.swift in Sources */,
 				5EF2FC2A250AC0B70089ADD7 /* CFHeaderLabel.swift in Sources */,
 				5E7C8AD724F6FFD3006D4153 /* UIView+Ext.swift in Sources */,
 				5ED95FAF24F5604B0033BB88 /* ItemLocationsView.swift in Sources */,

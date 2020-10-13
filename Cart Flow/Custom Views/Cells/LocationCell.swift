@@ -64,10 +64,11 @@ class LocationCell: UICollectionViewCell {
         ])
     }
     
-    func set(location: Aisle) {
-        storeLabel.text = location.parentStore!.name
-        aisleLabel.text = location.label
-    }
     
-
+    func set(location: Aisle) {
+        if let store = location.parentStore {
+            storeLabel.text = store.name
+            aisleLabel.text = location.label
+        }
+    }
 }

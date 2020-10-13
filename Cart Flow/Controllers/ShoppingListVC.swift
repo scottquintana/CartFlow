@@ -156,17 +156,18 @@ class ShoppingListVC: UIViewController {
                 for item in items {
                     if let locations = item.itemLocation as? Set<Aisle> {
                         for location in locations {
-                            
-                            if location.parentStore!.name == currentStore {
-                                if let aisle = location.label {
-                                    
-                                    // Make a model for this that doesn't invole core data?
-                                    
-                                    let itemCurrentLocation = LocationForStore(context: context)
-                                    itemCurrentLocation.aisleNumber = aisle
-                                    itemCurrentLocation.storeName = location.parentStore?.name
-                                    item.itemLocationInStore = itemCurrentLocation
-                                    
+                            if let store = location.parentStore {
+                                if store.name == currentStore {
+                                    if let aisle = location.label {
+                                        
+                                        // Make a model for this that doesn't invole core data?
+                                        
+                                        let itemCurrentLocation = LocationForStore(context: context)
+                                        itemCurrentLocation.aisleNumber = aisle
+                                        itemCurrentLocation.storeName = location.parentStore?.name
+                                        item.itemLocationInStore = itemCurrentLocation
+                                        
+                                    }
                                 }
                             }
                         }
