@@ -276,7 +276,12 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if let frc = fetchController {
-            return frc.sections!.count
+            if let sections = frc.sections {
+                if sections.count > 0 {
+                    return sections.count
+                }
+            }
+            
         }
         
         return 0
@@ -294,10 +299,18 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         loadItems()
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if let sections = fetchController?.sections {
+            if sections[section].name == "" {
+                return 0
+            }
+        }
+        return 25
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let sectionInfo = fetchController?.sections?[section] else { return nil }
-        
+
         let returnedView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 25))
         returnedView.backgroundColor = Colors.green
         
