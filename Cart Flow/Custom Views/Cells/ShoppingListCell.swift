@@ -31,12 +31,15 @@ class ShoppingListCell: UITableViewCell {
         if item.inCart {
             itemStatusImage.image = SFSymbols.check
             itemStatusImage.tintColor = Colors.checkGreen
+            backgroundBox.backgroundColor? = UIColor.white.withAlphaComponent(0.60)
         } else if item.outOfStock {
             itemStatusImage.image = SFSymbols.flag
             itemStatusImage.tintColor = Colors.yellow
+            backgroundBox.backgroundColor? = UIColor.white.withAlphaComponent(0.60)
         } else {
             itemStatusImage.image = SFSymbols.circle
             itemStatusImage.tintColor = .black
+            backgroundBox.backgroundColor? = UIColor.white.withAlphaComponent(1)
         }
     }
     
@@ -74,9 +77,4 @@ class ShoppingListCell: UITableViewCell {
         ])
     }
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-//    }
 }

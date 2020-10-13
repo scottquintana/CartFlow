@@ -35,11 +35,9 @@ class ItemListCell: UITableViewCell {
     
     func set(item: ShoppingItem) {
         itemLabel.text = item.name
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+
         if let lastPurchasedDate = item.lastPurchased {
-            let dateString = dateFormatter.string(from: lastPurchasedDate)
+            let dateString = DateHelper.convertToMonthDayYearFormat(lastPurchasedDate)
             lastPurchasedLabel.text = "Last purchased on: \(dateString)"
         } else {
             lastPurchasedLabel.text = "Item has no record of purchase"

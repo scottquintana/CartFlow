@@ -29,5 +29,6 @@ enum Colors {
     static let red = UIColor(red: 0.47, green: 0.35, blue: 0.39, alpha: 1.00)
     static let checkGreen = UIColor(red: 0.15, green: 0.47, blue: 0.00, alpha: 1.00)
     static let yellow = UIColor(red: 0.96, green: 0.80, blue: 0.36, alpha: 1.00)
+    static let logoBG = UIColor(red: 0.96, green: 0.96, blue: 0.91, alpha: 1.00)
     
 }

@@ -25,14 +25,13 @@ class ListCell: UITableViewCell {
     }
     
     func set(shoppingList: ShoppingList) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        let dateString = dateFormatter.string(from: shoppingList.lastUpdate!)
+        if let lastUpdated = shoppingList.lastUpdate {
+            let dateString = DateHelper.convertToMonthDayYearFormat(lastUpdated)
+            listDateUpdated.text = dateString
+        }
         listNameLabel.text = shoppingList.name ?? "Untitled List"
-        listDateUpdated.text = dateString
-        
-        
     }
+    
     
     private func configure() {
         addSubview(listNameLabel)

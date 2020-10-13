@@ -142,8 +142,9 @@ class ShoppingListVC: UIViewController {
         let request: NSFetchRequest<ShoppingItem> = ShoppingItem.fetchRequest()
         
         let predicate1 = NSPredicate(format: "ANY parentList.name =[cd] %@", shoppingList!.name!)
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-        request.sortDescriptors = [sortDescriptor]
+        let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let inCartSortDescriptor = NSSortDescriptor(key: "inCart", ascending: false)
+        request.sortDescriptors = [inCartSortDescriptor, nameSortDescriptor]
         request.predicate = predicate1
         
         if currentStore != nil {
@@ -177,11 +178,11 @@ class ShoppingListVC: UIViewController {
             }
             
             selectedSectionName = "itemLocationInStore.aisleNumber"
-            let sortDescriptor2 = NSSortDescriptor(key: "itemLocationInStore.aisleNumber", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+            let storeSortDescriptor = NSSortDescriptor(key: "itemLocationInStore.aisleNumber", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
             let predicate2 = NSPredicate(format: "ANY itemLocationInStore.storeName =[cd] %@", currentStore!)
             let combinedPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate1, predicate2])
             request.predicate = combinedPredicate
-            request.sortDescriptors = [sortDescriptor2, sortDescriptor]
+            request.sortDescriptors = [storeSortDescriptor, inCartSortDescriptor, nameSortDescriptor]
         }
         
         fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: selectedSectionName, cacheName: nil)
@@ -290,7 +291,7 @@ extension ShoppingListVC: UITableViewDelegate, UITableViewDataSource, NSFetchedR
         }
         
         saveList()
-        tableView.reloadData()
+        loadItems()
     }
     
     

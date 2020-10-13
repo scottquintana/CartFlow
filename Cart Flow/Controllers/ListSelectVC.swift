@@ -13,9 +13,7 @@ class ListSelectVC: UIViewController {
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let tableView = UITableView()
-    var shoppingLists: [ShoppingList] = [].sorted {
-        $0.lastUpdate?.compare($1.lastUpdate!) == .orderedDescending
-    }
+    var shoppingLists: [ShoppingList] = []
     
     
     override func viewDidLoad() {
