@@ -9,6 +9,12 @@
 import UIKit
 import CoreData
 
+protocol EditLocationVCDelegate: class {
+    func didEditLocation()
+    
+    func didCancelEdit()
+}
+
 class EditLocationVC: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -29,12 +35,12 @@ class EditLocationVC: UIViewController {
     var selectedStore: GroceryStore?
     
     var aislesInStore: [Aisle] = []
-
-    var isEditingStore: Bool = false
+    
+    weak var delegate: EditLocationVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.green
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.85)
         
         editAislesView.delegate = self
         
@@ -50,6 +56,12 @@ class EditLocationVC: UIViewController {
     }
     
     
+    func setStore(store: GroceryStore) {
+        self.selectedStore = store
+        loadAisles()
+    }
+    
+    
     private func configureStore() {
         let locationLabel = CFTitleLabel(textAlignment: .left, fontSize: 30)
         
@@ -57,7 +69,7 @@ class EditLocationVC: UIViewController {
         view.addSubview(storeTextField)
         
         locationLabel.textAlignment = .left
-        locationLabel.text = isEditingStore ? "Edit location" : "Add location"
+        locationLabel.text = "Edit location"
         
         storeTextField.placeholder = "Enter store name"
         storeTextField.text = selectedStore?.name ?? ""
@@ -158,12 +170,6 @@ class EditLocationVC: UIViewController {
         deleteButton.set(backgroundColor: Colors.red, title: "Delete store")
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
-        if isEditingStore {
-            deleteButton.isHidden = false
-        } else {
-            deleteButton.isHidden = true
-        }
-        
         cancelButton.set(backgroundColor: .systemGray5, title: "Cancel")
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         
@@ -212,7 +218,7 @@ class EditLocationVC: UIViewController {
     
     
     @objc private func cancelButtonPressed() {
-        dismiss(animated: false)
+        delegate.didCancelEdit()
     }
     
     
@@ -222,8 +228,8 @@ class EditLocationVC: UIViewController {
         } catch {
             print("Error saving.")
         }
-        isEditingStore = false
-        dismiss(animated: false)
+
+        delegate.didEditLocation()
     }
 }
 

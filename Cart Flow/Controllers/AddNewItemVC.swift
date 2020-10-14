@@ -41,7 +41,7 @@ class AddNewItemVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureTapGestures()
         configureDelegates()
         configureCancelButton()
@@ -69,8 +69,6 @@ class AddNewItemVC: UIViewController {
     private func configureDelegates() {
         itemLocationsView.delegate = self
         locationSelector.delegate = self
-        locationSelector.storeSelection.delegate = self
-        locationSelector.aisleSelection.delegate = self
     }
     
     
@@ -139,6 +137,8 @@ class AddNewItemVC: UIViewController {
     
     
     private func configureLocationSelection() {
+        loadStores()
+        
         view.addSubview(locationSelector)
         locationSelector.layer.masksToBounds = true
         locationSelector.translatesAutoresizingMaskIntoConstraints = false
@@ -157,10 +157,27 @@ class AddNewItemVC: UIViewController {
     
     func toggleLocationSelection() {
         isAddingLocation = !isAddingLocation
-        locationSelectorHeight.constant = isAddingLocation ? 300 : 40
-        locationSelector.storeSelection.setSelectedStore()
+        locationSelectorHeight.constant = isAddingLocation ? 140 : 40
+
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 1, options: .curveEaseOut, animations: { self.view.layoutIfNeeded() })
     }
+    
+    func loadStores() {
+        var stores: [GroceryStore] = []
+        let request: NSFetchRequest<GroceryStore> = GroceryStore.fetchRequest()
+        
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+        
+        do {
+            stores = try context.fetch(request)
+        } catch {
+            print("Error loading stores. \(error)")
+        }
+        
+        locationSelector.setStores(stores: stores)
+    }
+    
     
 
     func configureAddButton() {
@@ -216,9 +233,6 @@ class AddNewItemVC: UIViewController {
         case false:
             let newItem = ShoppingItem(context: context)
             newItem.name = itemNameView.itemNameTextField.text!
-            if let aisleToAdd = locationSelector.aisleSelection.selectedAisle {
-                newItem.addToItemLocation(aisleToAdd)
-            }
         }
         
         do {
@@ -239,17 +253,23 @@ class AddNewItemVC: UIViewController {
 //MARK: - LocationSelectionViewDelegate
 
 extension AddNewItemVC: LocationSelectionViewDelegate {
-    func didPressRemoveLocation(aisleToRemove: Aisle) {
-         selectedItem?.removeFromItemLocation(aisleToRemove)
-         
-         do {
-             try context.save()
-         } catch {
-             print("Error removing location. \(error)")
-         }
-         loadLocations()
-         toggleLocations()
-     }
+    func didSelectStore(selectedStore: GroceryStore) {
+    
+        let aisleScrollVC = AisleScrollVC()
+        aisleScrollVC.setStore(store: selectedStore)
+        aisleScrollVC.delegate = self
+        aisleScrollVC.modalPresentationStyle = .overFullScreen
+        aisleScrollVC.modalTransitionStyle = .crossDissolve
+        present(aisleScrollVC, animated: true)
+        
+    }
+    
+    
+    func didToggleLocationSelection() {
+        toggleLocationSelection()
+    }
+    
+
 }
 
 //MARK: - AisleSelectionViewDelegate
@@ -263,29 +283,9 @@ extension AddNewItemVC: AisleSelectionViewDelegate {
     }
 }
 
-//MARK: - StoreSelectionViewDelegate
 
-extension AddNewItemVC: StoreSelectionViewDelegate {
-    func didPressAddStore(alert: UIAlertController) {
-        present(alert, animated: true)
-    }
-    
-    
-    func didUpdateStore(selectedStore: GroceryStore) {
-        locationSelector.aisleSelection.selectedStore = selectedStore
-        locationSelector.aisleSelection.loadAisles()
-    }
-    
-    func didPressEditStore() {
-        let editItemVC = EditLocationVC()
-        editItemVC.selectedStore = locationSelector.storeSelection.selectedStore
 
-        
-        editItemVC.modalPresentationStyle = .overFullScreen
-        editItemVC.isEditingStore = true
-        present(editItemVC, animated: false)
-    }
-}
+
 
 //MARK: - ItemLocationsViewDelegate
 
@@ -295,7 +295,21 @@ extension AddNewItemVC: ItemLocationsViewDelegate {
     }
     
     
-    func addToLocationsButtonPressed() {
+    func didPressRemoveLocation(aisleToRemove: Aisle) {
+         selectedItem?.removeFromItemLocation(aisleToRemove)
+         
+         do {
+             try context.save()
+         } catch {
+             print("Error removing location. \(error)")
+         }
+         loadLocations()
+         toggleLocations()
+     }
+}
+
+extension AddNewItemVC: AisleScrollVCDelegate {
+    func didSelectLocation(location: Aisle) {
         if !editingItem {
             let newItem = ShoppingItem(context: context)
             newItem.name = itemNameView.itemNameTextField.text!
@@ -310,22 +324,14 @@ extension AddNewItemVC: ItemLocationsViewDelegate {
             editingItem = true
         }
         
+        selectedItem?.addToItemLocation(location)
         
-        if let aisle = locationSelector.aisleSelection.selectedAisle {
-            selectedItem?.addToItemLocation(aisle)
-            
-            do {
-                try context.save()
-            } catch {
-                print("Error adding aisle. \(error)")
-            }
-            loadLocations()
-            toggleLocationSelection()
-            }
-    }
-    
-    
-    func didToggleLocationSelection() {
+        do {
+            try context.save()
+        } catch {
+            print("Error adding aisle. \(error)")
+        }
+        loadLocations()
         toggleLocationSelection()
     }
 }

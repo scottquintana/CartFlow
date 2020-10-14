@@ -39,6 +39,9 @@
 		5E9C3E14251D5325009A7C26 /* StoreFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C3E13251D5325009A7C26 /* StoreFilterVC.swift */; };
 		5EC1ADE4252646B30001F684 /* ClearListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC1ADE3252646B30001F684 /* ClearListVC.swift */; };
 		5ED23F182536023C0077DEA8 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED23F172536023C0077DEA8 /* DateHelper.swift */; };
+		5ED23F2025374F820077DEA8 /* StoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED23F1F25374F820077DEA8 /* StoreCell.swift */; };
+		5ED23F232537652A0077DEA8 /* SelectAisleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED23F222537652A0077DEA8 /* SelectAisleVC.swift */; };
+		5ED23F28253791260077DEA8 /* AisleScrollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED23F27253791260077DEA8 /* AisleScrollVC.swift */; };
 		5ED95FAF24F5604B0033BB88 /* ItemLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED95FAE24F5604B0033BB88 /* ItemLocationsView.swift */; };
 		5ED984D224DB188C00AF1009 /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED984D124DB188C00AF1009 /* ItemListCell.swift */; };
 		5ED984D424DC674300AF1009 /* AddNewItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED984D324DC674200AF1009 /* AddNewItemVC.swift */; };
@@ -85,6 +88,9 @@
 		5E9C3E13251D5325009A7C26 /* StoreFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFilterVC.swift; sourceTree = "<group>"; };
 		5EC1ADE3252646B30001F684 /* ClearListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearListVC.swift; sourceTree = "<group>"; };
 		5ED23F172536023C0077DEA8 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		5ED23F1F25374F820077DEA8 /* StoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCell.swift; sourceTree = "<group>"; };
+		5ED23F222537652A0077DEA8 /* SelectAisleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAisleVC.swift; sourceTree = "<group>"; };
+		5ED23F27253791260077DEA8 /* AisleScrollVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AisleScrollVC.swift; sourceTree = "<group>"; };
 		5ED95FAE24F5604B0033BB88 /* ItemLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLocationsView.swift; sourceTree = "<group>"; };
 		5ED984D124DB188C00AF1009 /* ItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
 		5ED984D324DC674200AF1009 /* AddNewItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemVC.swift; sourceTree = "<group>"; };
@@ -187,14 +193,16 @@
 		5ECABFE624E308D4000C7142 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5ED984D324DC674200AF1009 /* AddNewItemVC.swift */,
 				5E769AA224D8C46F0024FECC /* CFTabBarController.swift */,
+				5EC1ADE3252646B30001F684 /* ClearListVC.swift */,
+				5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */,
+				5E769AA024D8C4160024FECC /* ItemListVC.swift */,
 				5E769A8024D862010024FECC /* ListSelectVC.swift */,
 				5E769A9E24D8C3E80024FECC /* ShoppingListVC.swift */,
-				5E769AA024D8C4160024FECC /* ItemListVC.swift */,
-				5ED984D324DC674200AF1009 /* AddNewItemVC.swift */,
-				5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */,
 				5E9C3E13251D5325009A7C26 /* StoreFilterVC.swift */,
-				5EC1ADE3252646B30001F684 /* ClearListVC.swift */,
+				5ED23F222537652A0077DEA8 /* SelectAisleVC.swift */,
+				5ED23F27253791260077DEA8 /* AisleScrollVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -256,6 +264,7 @@
 				5E197AD924E3211F0046B1E8 /* ShoppingListCell.swift */,
 				5E92C0C024EF20C5004DABB6 /* LocationCell.swift */,
 				5E0C30202509520900B0CD52 /* AisleListCell.swift */,
+				5ED23F1F25374F820077DEA8 /* StoreCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -354,6 +363,7 @@
 				5E769A9F24D8C3E80024FECC /* ShoppingListVC.swift in Sources */,
 				5EF2FC25250A936F0089ADD7 /* UITextField+Ext.swift in Sources */,
 				5E7C8AD024F59E5A006D4153 /* StoreSelectionView.swift in Sources */,
+				5ED23F28253791260077DEA8 /* AisleScrollVC.swift in Sources */,
 				5ED984D624DC689F00AF1009 /* CFTextField.swift in Sources */,
 				5E9C3E14251D5325009A7C26 /* StoreFilterVC.swift in Sources */,
 				5E7C8AD424F5A838006D4153 /* AisleSelectionView.swift in Sources */,
@@ -365,10 +375,12 @@
 				5ED984D424DC674300AF1009 /* AddNewItemVC.swift in Sources */,
 				5E92C0C124EF20C5004DABB6 /* LocationCell.swift in Sources */,
 				5E769AA124D8C4160024FECC /* ItemListVC.swift in Sources */,
+				5ED23F232537652A0077DEA8 /* SelectAisleVC.swift in Sources */,
 				5EE7A7A024DCAE5A00F82963 /* CFButton.swift in Sources */,
 				5E1F51DC24E59F6D0096D3A3 /* CFPlusButton.swift in Sources */,
 				5E7C8ACD24F59BBE006D4153 /* LocationSelectionView.swift in Sources */,
 				5E0C30212509520A00B0CD52 /* AisleListCell.swift in Sources */,
+				5ED23F2025374F820077DEA8 /* StoreCell.swift in Sources */,
 				5ED984D224DB188C00AF1009 /* ItemListCell.swift in Sources */,
 				5E92C0C324EF215B004DABB6 /* CFLocationLabel.swift in Sources */,
 				5ED23F182536023C0077DEA8 /* DateHelper.swift in Sources */,

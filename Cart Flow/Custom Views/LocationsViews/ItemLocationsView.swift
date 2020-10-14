@@ -137,10 +137,6 @@ extension ItemLocationsView: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
-        
-        
-        
         selectedLocation = itemLocations[indexPath.item]
         delegate?.didPressEditLocation()
     }

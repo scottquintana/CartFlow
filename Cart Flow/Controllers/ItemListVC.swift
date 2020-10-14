@@ -244,7 +244,7 @@ extension ItemListVC: ItemListCellDelegate {
         let addItemVC = AddNewItemVC()
         addItemVC.selectedItem = item
         addItemVC.editingItem = true
-        addItemVC.locationSelector.storeSelection.setSelectedStore()
+
         present(addItemVC, animated: true)
     }
 }
