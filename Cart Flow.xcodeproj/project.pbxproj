@@ -28,8 +28,6 @@
 		5E769AA324D8C46F0024FECC /* CFTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E769AA224D8C46F0024FECC /* CFTabBarController.swift */; };
 		5E769AA524D8C5690024FECC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E769AA424D8C5690024FECC /* Constants.swift */; };
 		5E7C8ACD24F59BBE006D4153 /* LocationSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8ACC24F59BBE006D4153 /* LocationSelectionView.swift */; };
-		5E7C8AD024F59E5A006D4153 /* StoreSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8ACF24F59E5A006D4153 /* StoreSelectionView.swift */; };
-		5E7C8AD424F5A838006D4153 /* AisleSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8AD324F5A838006D4153 /* AisleSelectionView.swift */; };
 		5E7C8AD724F6FFD3006D4153 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7C8AD624F6FFD3006D4153 /* UIView+Ext.swift */; };
 		5E7FDB7524E1B28800BE904F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5E7FDB7324E1B28800BE904F /* DataModel.xcdatamodeld */; };
 		5E92C0BF24ED8A58004DABB6 /* StorePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E92C0BE24ED8A58004DABB6 /* StorePicker.swift */; };
@@ -77,8 +75,6 @@
 		5E769AA224D8C46F0024FECC /* CFTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFTabBarController.swift; sourceTree = "<group>"; };
 		5E769AA424D8C5690024FECC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5E7C8ACC24F59BBE006D4153 /* LocationSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionView.swift; sourceTree = "<group>"; };
-		5E7C8ACF24F59E5A006D4153 /* StoreSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSelectionView.swift; sourceTree = "<group>"; };
-		5E7C8AD324F5A838006D4153 /* AisleSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AisleSelectionView.swift; sourceTree = "<group>"; };
 		5E7C8AD624F6FFD3006D4153 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		5E7FDB7424E1B28800BE904F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		5E92C0BE24ED8A58004DABB6 /* StorePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorePicker.swift; sourceTree = "<group>"; };
@@ -155,8 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				5E7C8ACC24F59BBE006D4153 /* LocationSelectionView.swift */,
-				5E7C8ACF24F59E5A006D4153 /* StoreSelectionView.swift */,
-				5E7C8AD324F5A838006D4153 /* AisleSelectionView.swift */,
 			);
 			path = LocationSelectionViews;
 			sourceTree = "<group>";
@@ -362,11 +356,9 @@
 				5E92C0BF24ED8A58004DABB6 /* StorePicker.swift in Sources */,
 				5E769A9F24D8C3E80024FECC /* ShoppingListVC.swift in Sources */,
 				5EF2FC25250A936F0089ADD7 /* UITextField+Ext.swift in Sources */,
-				5E7C8AD024F59E5A006D4153 /* StoreSelectionView.swift in Sources */,
 				5ED23F28253791260077DEA8 /* AisleScrollVC.swift in Sources */,
 				5ED984D624DC689F00AF1009 /* CFTextField.swift in Sources */,
 				5E9C3E14251D5325009A7C26 /* StoreFilterVC.swift in Sources */,
-				5E7C8AD424F5A838006D4153 /* AisleSelectionView.swift in Sources */,
 				5EC1ADE4252646B30001F684 /* ClearListVC.swift in Sources */,
 				5E33AAEF24FD48D400F64AF7 /* EditLocationVC.swift in Sources */,
 				5E0C301F2507CFE900B0CD52 /* EditAislesView.swift in Sources */,

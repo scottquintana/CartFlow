@@ -19,16 +19,10 @@ class EditLocationVC: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-
     let storeTextField = CFTextField()
     let aisleContainer = UIView()
     let editAislesView = EditAislesView()
-    
     let aislesTableView = UITableView()
-    
- 
-    let cancelButton = CFButton()
-    let saveButton = CFButton()
     
     let padding: CGFloat = 20
     
@@ -69,7 +63,7 @@ class EditLocationVC: UIViewController {
         view.addSubview(storeTextField)
         
         locationLabel.textAlignment = .left
-        locationLabel.text = "Edit location"
+        locationLabel.text = ""
         
         storeTextField.placeholder = "Enter store name"
         storeTextField.text = selectedStore?.name ?? ""
@@ -158,40 +152,37 @@ class EditLocationVC: UIViewController {
     
     
     private func configureButtons() {
+        let stackView = UIStackView()
+        
         let deleteButton = CFButton()
+        let cancelButton = CFButton()
+        let saveButton = CFButton()
         
-        view.addSubview(deleteButton)
-        view.addSubview(cancelButton)
-        view.addSubview(saveButton)
+        view.addSubview(stackView)
+        stackView.addArrangedSubview(deleteButton)
+        stackView.addArrangedSubview(cancelButton)
+        stackView.addArrangedSubview(saveButton)
         
-        let buttonHeight: CGFloat = 30
-        let buttonSpacing: CGFloat = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 5
         
         deleteButton.set(backgroundColor: Colors.red, title: "Delete store")
         deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
-        cancelButton.set(backgroundColor: .systemGray5, title: "Cancel")
+        cancelButton.set(backgroundColor: .systemGray3, title: "Cancel")
         cancelButton.addTarget(self, action: #selector(cancelButtonPressed), for: .touchUpInside)
         
-        saveButton.set(backgroundColor: .black, title: "Save")
+        saveButton.set(backgroundColor: Colors.green, title: "Save")
         saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            deleteButton.topAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: padding),
-            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            deleteButton.trailingAnchor.constraint(equalTo: cancelButton.leadingAnchor, constant: -buttonSpacing),
-            deleteButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            stackView.topAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: padding),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            stackView.heightAnchor.constraint(equalToConstant: 36),
             
-            cancelButton.topAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: padding),
-            cancelButton.leadingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: buttonSpacing),
-            cancelButton.trailingAnchor.constraint(equalTo: saveButton.leadingAnchor, constant: -buttonSpacing),
-            cancelButton.heightAnchor.constraint(equalToConstant: buttonHeight),
-            
-            saveButton.topAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: padding),
-            saveButton.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor, constant: buttonSpacing),
-            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            saveButton.widthAnchor.constraint(equalToConstant: 100),
-            saveButton.heightAnchor.constraint(equalToConstant: buttonHeight)
         ])
         
     }
@@ -210,6 +201,7 @@ class EditLocationVC: UIViewController {
             }
             
             self.dismiss(animated: false)
+            self.delegate.didEditLocation()
         }
         alert.addAction(cancel)
         alert.addAction(action)

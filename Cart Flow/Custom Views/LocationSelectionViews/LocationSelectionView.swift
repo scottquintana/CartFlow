@@ -12,6 +12,8 @@ protocol LocationSelectionViewDelegate: class {
     func didToggleLocationSelection()
     
     func didSelectStore(selectedStore: GroceryStore)
+    
+    func didPressAddStore()
 }
 
 class LocationSelectionView: UIView {
@@ -116,7 +118,7 @@ class LocationSelectionView: UIView {
     
     
     @objc func addNewStore() {
-        // add store alert
+        delegate.didPressAddStore()
     }
     
 

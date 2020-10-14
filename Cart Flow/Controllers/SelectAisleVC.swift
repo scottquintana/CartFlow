@@ -24,9 +24,6 @@ class SelectAisleVC: UIViewController {
     var aisles: [Aisle] = []
     
     let containerView = UIView()
-    let aislesLabel = CFSecondaryTitleLabel(textAlignment: .center)
-    let editButton = CFButton(backgroundColor: Colors.green, title: "Edit Location")
-    let cancelButton = CFButton(backgroundColor: .systemGray5, title: "Cancel")
     
     weak var delegate: SelectAisleVCDelegate!
     
@@ -57,7 +54,6 @@ class SelectAisleVC: UIViewController {
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -topBottomPadding)
         ])
-    
     }
     
     
@@ -76,7 +72,10 @@ class SelectAisleVC: UIViewController {
     
     private func layoutUI() {
         let stackView = UIStackView()
-    
+        
+        let aislesLabel = CFSecondaryTitleLabel(textAlignment: .center)
+        let editButton = CFButton(backgroundColor: Colors.green, title: "Edit Location")
+        let cancelButton = CFButton(backgroundColor: .systemGray3, title: "Cancel")
         
         containerView.addSubview(aislesLabel)
         containerView.addSubview(aisleTableView)

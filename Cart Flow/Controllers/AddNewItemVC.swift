@@ -253,6 +253,34 @@ class AddNewItemVC: UIViewController {
 //MARK: - LocationSelectionViewDelegate
 
 extension AddNewItemVC: LocationSelectionViewDelegate {
+    func didPressAddStore() {
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add new store", message: "", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            let newStore = GroceryStore(context: self.context)
+            newStore.name = textField.text
+            
+            do {
+                try self.context.save()
+            } catch {
+                print("error adding store")
+                self.context.delete(newStore)
+            }
+            
+            self.loadStores()
+            
+        }
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "Store name"
+            textField = alertTextField
+        }
+        alert.addAction(cancel)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
     func didSelectStore(selectedStore: GroceryStore) {
     
         let aisleScrollVC = AisleScrollVC()
@@ -271,21 +299,6 @@ extension AddNewItemVC: LocationSelectionViewDelegate {
     
 
 }
-
-//MARK: - AisleSelectionViewDelegate
-
-extension AddNewItemVC: AisleSelectionViewDelegate {
-    func presentAisleAlert(alert: UIAlertController) {
-        let editItemVC = EditLocationVC()
-        editItemVC.modalPresentationStyle = .overFullScreen
-        
-        present(editItemVC, animated: false)
-    }
-}
-
-
-
-
 
 //MARK: - ItemLocationsViewDelegate
 
@@ -309,6 +322,10 @@ extension AddNewItemVC: ItemLocationsViewDelegate {
 }
 
 extension AddNewItemVC: AisleScrollVCDelegate {
+    func didUpdateLocation() {
+        loadStores()
+    }
+    
     func didSelectLocation(location: Aisle) {
         if !editingItem {
             let newItem = ShoppingItem(context: context)

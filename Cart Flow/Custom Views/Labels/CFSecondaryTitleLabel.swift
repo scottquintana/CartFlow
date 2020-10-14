@@ -30,7 +30,7 @@ class CFSecondaryTitleLabel: UILabel {
         textColor = .black
         font = UIFont.preferredFont(forTextStyle: .body)
         adjustsFontSizeToFitWidth = false
-        
+        baselineAdjustment = .alignCenters
         adjustsFontForContentSizeCategory = true
         minimumScaleFactor = 0.75
         lineBreakMode = .byWordWrapping

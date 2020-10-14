@@ -10,6 +10,8 @@ import UIKit
 
 protocol AisleScrollVCDelegate: class {
     func didSelectLocation(location: Aisle)
+    
+    func didUpdateLocation()
 }
 
 class AisleScrollVC: UIViewController {
@@ -124,6 +126,7 @@ extension AisleScrollVC: EditLocationVCDelegate {
     func didEditLocation() {
         setController(to: viewControllers[0], animated: true)
         selectAisleVC.loadAisles()
+        delegate.didUpdateLocation()
         
     }
     
