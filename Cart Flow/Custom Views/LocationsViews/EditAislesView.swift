@@ -29,7 +29,7 @@ class EditAislesView: UIView {
     let descriptionLabel = CFBodyLabel()
     let descriptionTextField = CFTextField()
     
-    let cancelEditButton = CFButton(backgroundColor: .systemGray5, title: "Cancel")
+    let cancelEditButton = CFButton(backgroundColor: .systemGray3, title: "Cancel")
     let addUpdateButton = CFButton(backgroundColor: Colors.darkBar, title: "Add aisle")
     
     var isEditingAisle = false

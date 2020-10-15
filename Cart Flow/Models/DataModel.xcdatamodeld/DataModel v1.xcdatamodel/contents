@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Aisle" representedClassName="Aisle" syncable="YES" codeGenerationType="class">
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="label" attributeType="String"/>
+        <relationship name="itemsInAisle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingItem" inverseName="itemLocation" inverseEntity="ShoppingItem"/>
+        <relationship name="parentStore" maxCount="1" deletionRule="Nullify" destinationEntity="GroceryStore" inverseName="aisles" inverseEntity="GroceryStore"/>
+    </entity>
+    <entity name="GroceryStore" representedClassName="GroceryStore" syncable="YES" codeGenerationType="class">
+        <attribute name="colorAsHex" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String" minValueString="1"/>
+        <relationship name="aisles" toMany="YES" deletionRule="Cascade" destinationEntity="Aisle" inverseName="parentStore" inverseEntity="Aisle"/>
+    </entity>
+    <entity name="LocationForStore" representedClassName=".LocationForStore" syncable="YES" codeGenerationType="class">
+        <attribute name="aisleNumber" optional="YES" attributeType="String"/>
+        <attribute name="storeName" optional="YES" attributeType="String"/>
+        <relationship name="itemsInStoreAisle" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingItem" inverseName="itemLocationInStore" inverseEntity="ShoppingItem"/>
+    </entity>
+    <entity name="ShoppingItem" representedClassName=".ShoppingItem" syncable="YES" codeGenerationType="class">
+        <attribute name="descripton" optional="YES" attributeType="String"/>
+        <attribute name="inCart" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lastPurchased" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="outOfStock" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="itemLocation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Aisle" inverseName="itemsInAisle" inverseEntity="Aisle"/>
+        <relationship name="itemLocationInStore" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocationForStore" inverseName="itemsInStoreAisle" inverseEntity="LocationForStore"/>
+        <relationship name="parentList" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingList" inverseName="items" inverseEntity="ShoppingList"/>
+    </entity>
+    <entity name="ShoppingList" representedClassName="ShoppingList" syncable="YES" codeGenerationType="class">
+        <attribute name="lastUpdate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingItem" inverseName="parentList" inverseEntity="ShoppingItem"/>
+    </entity>
+    <elements>
+        <element name="Aisle" positionX="-259.3125" positionY="-162.94140625" width="128" height="103"/>
+        <element name="GroceryStore" positionX="-54.6953125" positionY="-203.22265625" width="128" height="88"/>
+        <element name="LocationForStore" positionX="193.25" positionY="-164.7578125" width="128" height="88"/>
+        <element name="ShoppingItem" positionX="21.40234375" positionY="-101.76171875" width="128" height="163"/>
+        <element name="ShoppingList" positionX="-415.0546875" positionY="-52.1796875" width="128" height="88"/>
+    </elements>
+</model>

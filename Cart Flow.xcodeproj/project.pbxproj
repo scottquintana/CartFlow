@@ -87,6 +87,7 @@
 		5ED23F1F25374F820077DEA8 /* StoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCell.swift; sourceTree = "<group>"; };
 		5ED23F222537652A0077DEA8 /* SelectAisleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAisleVC.swift; sourceTree = "<group>"; };
 		5ED23F27253791260077DEA8 /* AisleScrollVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AisleScrollVC.swift; sourceTree = "<group>"; };
+		5ED23F2E2538A1E40077DEA8 /* DataModel v1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DataModel v1.xcdatamodel"; sourceTree = "<group>"; };
 		5ED95FAE24F5604B0033BB88 /* ItemLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLocationsView.swift; sourceTree = "<group>"; };
 		5ED984D124DB188C00AF1009 /* ItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
 		5ED984D324DC674200AF1009 /* AddNewItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemVC.swift; sourceTree = "<group>"; };
@@ -579,9 +580,10 @@
 		5E7FDB7324E1B28800BE904F /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				5ED23F2E2538A1E40077DEA8 /* DataModel v1.xcdatamodel */,
 				5E7FDB7424E1B28800BE904F /* DataModel.xcdatamodel */,
 			);
-			currentVersion = 5E7FDB7424E1B28800BE904F /* DataModel.xcdatamodel */;
+			currentVersion = 5ED23F2E2538A1E40077DEA8 /* DataModel v1.xcdatamodel */;
 			path = DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
