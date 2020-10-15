@@ -33,7 +33,7 @@ class CFBodyLabel: UILabel {
        adjustsFontForContentSizeCategory = true
        
        adjustsFontSizeToFitWidth = true
-       minimumScaleFactor = 0.75
+       minimumScaleFactor = 1
        lineBreakMode = .byWordWrapping
        translatesAutoresizingMaskIntoConstraints = false
    }

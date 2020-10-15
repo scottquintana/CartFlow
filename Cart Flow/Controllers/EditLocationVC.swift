@@ -20,11 +20,12 @@ class EditLocationVC: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let storeTextField = CFTextField()
+    let editContainer = UIView()
     let aisleContainer = UIView()
     let editAislesView = EditAislesView()
     let aislesTableView = UITableView()
-    
-    let padding: CGFloat = 20
+    let stackView = UIStackView()
+    let padding: CGFloat = 8
     
     var selectedStore: GroceryStore?
     
@@ -37,7 +38,7 @@ class EditLocationVC: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.85)
         
         editAislesView.delegate = self
-        
+        configureEditContainer()
         configureStore()
         configureAisleContainer()
         configureAisle()
@@ -56,43 +57,54 @@ class EditLocationVC: UIViewController {
     }
     
     
+    private func configureEditContainer() {
+        view.addSubview(editContainer)
+        
+        editContainer.backgroundColor = .black
+        editContainer.layer.cornerRadius = 16
+        editContainer.layer.borderWidth = 2
+        editContainer.layer.borderColor = UIColor.black.cgColor
+        editContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        let topBottomPadding: CGFloat = 100
+        let sidePadding: CGFloat = 10
+        NSLayoutConstraint.activate([
+            editContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: topBottomPadding),
+            editContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sidePadding),
+            editContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sidePadding),
+            editContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -topBottomPadding)
+        ])
+    }
+    
+    
     private func configureStore() {
-        let locationLabel = CFTitleLabel(textAlignment: .left, fontSize: 30)
-        
-        view.addSubview(locationLabel)
-        view.addSubview(storeTextField)
-        
-        locationLabel.textAlignment = .left
-        locationLabel.text = ""
-        
+    
+        editContainer.addSubview(storeTextField)
+    
         storeTextField.placeholder = "Enter store name"
         storeTextField.text = selectedStore?.name ?? ""
         
         
         NSLayoutConstraint.activate([
-            locationLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: padding + 40),
-            locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            locationLabel.heightAnchor.constraint(equalToConstant: 30),
-            
-            storeTextField.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: padding),
-            storeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            storeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+
+            storeTextField.topAnchor.constraint(equalTo: editContainer.topAnchor, constant: 20),
+            storeTextField.leadingAnchor.constraint(equalTo: editContainer.leadingAnchor, constant: 20),
+            storeTextField.trailingAnchor.constraint(equalTo: editContainer.trailingAnchor, constant: -20),
             storeTextField.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
     
     
     private func configureAisleContainer() {
-        view.addSubview(aisleContainer)
+        editContainer.addSubview(aisleContainer)
         aisleContainer.translatesAutoresizingMaskIntoConstraints = false
         aisleContainer.layer.cornerRadius = 16
         aisleContainer.backgroundColor = .white
         NSLayoutConstraint.activate([
             aisleContainer.topAnchor.constraint(equalTo: storeTextField.bottomAnchor, constant: padding),
-            aisleContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            aisleContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            aisleContainer.heightAnchor.constraint(equalToConstant: 400)
+            aisleContainer.leadingAnchor.constraint(equalTo: editContainer.leadingAnchor),
+            aisleContainer.trailingAnchor.constraint(equalTo: editContainer.trailingAnchor),
+            aisleContainer.bottomAnchor.constraint(equalTo: editContainer.bottomAnchor, constant: -58)
             
             // set this height to adjust with the aisle count
             
@@ -152,13 +164,13 @@ class EditLocationVC: UIViewController {
     
     
     private func configureButtons() {
-        let stackView = UIStackView()
+        
         
         let deleteButton = CFButton()
         let cancelButton = CFButton()
         let saveButton = CFButton()
         
-        view.addSubview(stackView)
+        editContainer.addSubview(stackView)
         stackView.addArrangedSubview(deleteButton)
         stackView.addArrangedSubview(cancelButton)
         stackView.addArrangedSubview(saveButton)
@@ -178,9 +190,10 @@ class EditLocationVC: UIViewController {
         saveButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: padding),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+         //   stackView.topAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: padding),
+            stackView.leadingAnchor.constraint(equalTo: editContainer.leadingAnchor, constant: padding),
+            stackView.trailingAnchor.constraint(equalTo: editContainer.trailingAnchor, constant: -padding),
+            stackView.bottomAnchor.constraint(equalTo: editContainer.bottomAnchor, constant: -padding),
             stackView.heightAnchor.constraint(equalToConstant: 36),
             
         ])

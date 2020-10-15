@@ -33,7 +33,7 @@ class CFLocationLabel: UILabel {
         adjustsFontForContentSizeCategory = true
         textAlignment = .center
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.75
+        minimumScaleFactor = 0.80
         lineBreakMode = .byWordWrapping
         translatesAutoresizingMaskIntoConstraints = false
     }

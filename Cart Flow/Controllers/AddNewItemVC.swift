@@ -20,6 +20,7 @@ class AddNewItemVC: UIViewController {
     
     let itemNameView = ItemNameView()
     let itemLocationsView = ItemLocationsView()
+    let aisleScrollVC = AisleScrollVC()
     var itemLocationsHeight: NSLayoutConstraint!
 
     let sectionBackgroundColor: UIColor = .white
@@ -283,7 +284,7 @@ extension AddNewItemVC: LocationSelectionViewDelegate {
     
     func didSelectStore(selectedStore: GroceryStore) {
     
-        let aisleScrollVC = AisleScrollVC()
+        
         aisleScrollVC.setStore(store: selectedStore)
         aisleScrollVC.delegate = self
         aisleScrollVC.modalPresentationStyle = .overFullScreen

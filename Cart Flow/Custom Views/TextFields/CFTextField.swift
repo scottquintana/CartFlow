@@ -24,7 +24,7 @@ class CFTextField: UITextField {
     private func configure() {
         translatesAutoresizingMaskIntoConstraints = false
         
-        layer.cornerRadius = 8
+        layer.cornerRadius = 12
         layer.borderWidth = 2
         layer.borderColor = UIColor.systemGray4.cgColor
         
@@ -37,7 +37,7 @@ class CFTextField: UITextField {
         minimumFontSize = 12
         
         backgroundColor = .tertiarySystemBackground
-        autocorrectionType = .no
+        autocorrectionType = .yes
         clearButtonMode = .whileEditing
         
     }

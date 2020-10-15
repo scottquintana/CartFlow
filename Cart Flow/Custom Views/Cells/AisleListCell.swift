@@ -28,7 +28,7 @@ class AisleListCell: UITableViewCell {
     func set(aisle: Aisle) {
         self.aisleLabel.text = aisle.label
         if let description = aisle.desc {
-            self.descriptionLabel.text = "- \(description)"
+            self.descriptionLabel.text = "-  \(description)"
         } else {
             descriptionLabel.text = ""
         }
@@ -40,6 +40,7 @@ class AisleListCell: UITableViewCell {
         
         backgroundColor = .white
         aisleLabel.textColor = .black
+        aisleLabel.textAlignment = .center
         descriptionLabel.textColor = .black
         
         NSLayoutConstraint.activate([
