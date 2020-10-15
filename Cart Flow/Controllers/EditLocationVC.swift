@@ -64,6 +64,10 @@ class EditLocationVC: UIViewController {
         editContainer.layer.cornerRadius = 16
         editContainer.layer.borderWidth = 2
         editContainer.layer.borderColor = UIColor.black.cgColor
+        editContainer.layer.shadowColor = UIColor.systemGray.cgColor
+        editContainer.layer.shadowOpacity = 0.25
+        editContainer.layer.shadowOffset = CGSize(width: 0, height: 1)
+        editContainer.layer.shadowRadius = 15
         editContainer.translatesAutoresizingMaskIntoConstraints = false
         
         let topBottomPadding: CGFloat = 100
@@ -116,6 +120,8 @@ class EditLocationVC: UIViewController {
     private func configureAisle() {
         aisleContainer.addSubview(editAislesView)
         aisleContainer.addSubview(aislesTableView)
+        
+        aisleContainer.layer.masksToBounds = true
         editAislesView.translatesAutoresizingMaskIntoConstraints = false
         aislesTableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -130,9 +136,9 @@ class EditLocationVC: UIViewController {
             editAislesView.heightAnchor.constraint(equalToConstant: 160),
             
             aislesTableView.topAnchor.constraint(equalTo: editAislesView.bottomAnchor),
-            aislesTableView.leadingAnchor.constraint(equalTo: aisleContainer.leadingAnchor),
-            aislesTableView.trailingAnchor.constraint(equalTo: aisleContainer.trailingAnchor),
-            aislesTableView.bottomAnchor.constraint(equalTo: aisleContainer.bottomAnchor, constant: -16)
+            aislesTableView.leadingAnchor.constraint(equalTo: aisleContainer.leadingAnchor, constant: 4),
+            aislesTableView.trailingAnchor.constraint(equalTo: aisleContainer.trailingAnchor, constant: -4),
+            aislesTableView.bottomAnchor.constraint(equalTo: aisleContainer.bottomAnchor)
         ])
     }
     

@@ -50,6 +50,7 @@ class AisleScrollVC: UIViewController {
         scrollView.setContentOffset(contentOffset, animated: animated)
     }
     
+    
     func setStore(store: GroceryStore) {
         selectAisleVC.setStoreForAisles(store: store)
         editLocationVC.setStore(store: store)
@@ -66,6 +67,7 @@ class AisleScrollVC: UIViewController {
         view.backgroundColor = .clear
     }
     
+    
     private func loadChildren() {
         viewControllers = [selectAisleVC, editLocationVC]
         
@@ -81,59 +83,63 @@ class AisleScrollVC: UIViewController {
     }
 }
 
+//MARK: - Private extensions
+
 extension AisleScrollVC {
     
-    func frame(for index: Int) -> CGRect {
+    private func frame(for index: Int) -> CGRect {
         return CGRect(x: CGFloat(index) * pageSize.width,
                       y: 0,
                       width: pageSize.width,
                       height: pageSize.height)
     }
     
-    func indexFor(controller: UIViewController?) -> Int? {
+    private func indexFor(controller: UIViewController?) -> Int? {
         return viewControllers.firstIndex(where: {$0 == controller } )
     }
     
 }
 
-extension AisleScrollVC: UIScrollViewDelegate {
-    
-}
+
+extension AisleScrollVC: UIScrollViewDelegate {}
+
+//MARK: - Public extensions
 
 extension AisleScrollVC {
-  
-  public func setController(to controller: UIViewController, animated: Bool) {
-    guard let index = indexFor(controller: controller) else { return }
     
-    let contentOffset = CGPoint(x: pageSize.width * CGFloat(index), y: 0)
-    scrollView.setContentOffset(contentOffset, animated: animated)
-  }
+    public func setController(to controller: UIViewController, animated: Bool) {
+        guard let index = indexFor(controller: controller) else { return }
+        
+        let contentOffset = CGPoint(x: pageSize.width * CGFloat(index), y: 0)
+        scrollView.setContentOffset(contentOffset, animated: animated)
+    }
 }
+
+//MARK: - SelectAisleVCDelegate
 
 extension AisleScrollVC: SelectAisleVCDelegate {
     func didSelectLocation(location: Aisle) {
         delegate.didSelectLocation(location: location)
         dismiss(animated: true)
     }
-
+    
     
     func didPressEditLocation() {
         setController(to: viewControllers[1], animated: true)
     }
 }
 
+//MARK: - EditLocationVCDelegate
+
 extension AisleScrollVC: EditLocationVCDelegate {
     func didEditLocation() {
         setController(to: viewControllers[0], animated: true)
         selectAisleVC.loadAisles()
         delegate.didUpdateLocation()
-        
     }
+    
     
     func didCancelEdit() {
         setController(to: viewControllers[0], animated: true)
     }
-    
-
-    
 }

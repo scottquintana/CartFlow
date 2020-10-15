@@ -44,10 +44,10 @@ class SelectAisleVC: UIViewController {
         containerView.layer.cornerRadius = 16
         containerView.layer.borderWidth = 2
         containerView.layer.borderColor = UIColor.black.cgColor
-        containerView.layer.shadowColor = UIColor.systemGray3.cgColor
-        containerView.layer.shadowOpacity = 0.3
-        containerView.layer.shadowOffset = CGSize.zero
-        containerView.layer.shadowRadius = 6
+        containerView.layer.shadowColor = UIColor.systemGray.cgColor
+        containerView.layer.shadowOpacity = 0.25
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        containerView.layer.shadowRadius = 15
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
         let topBottomPadding: CGFloat = 100
