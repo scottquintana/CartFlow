@@ -11,7 +11,7 @@ import CoreData
 
 protocol AddNewItemVCDelegate: class {
     
-    func didAddNewItem(controller: AddNewItemVC, item: ShoppingItem)
+    func didAddNewItemToCart(item: ShoppingItem)
 }
 
 class AddNewItemVC: UIViewController {
@@ -97,7 +97,7 @@ class AddNewItemVC: UIViewController {
             itemNameView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
             itemNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             itemNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemNameView.heightAnchor.constraint(equalToConstant: 120)
+            itemNameView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
     
@@ -231,16 +231,19 @@ class AddNewItemVC: UIViewController {
         switch editingItem {
         case true:
             selectedItem?.name = itemNameView.itemNameTextField.text
+            saveContext()
         case false:
             let newItem = ShoppingItem(context: context)
             newItem.name = itemNameView.itemNameTextField.text!
+            saveContext()
+            if itemNameView.addToCartSwitch.isOn {
+                delegate.didAddNewItemToCart(item: newItem)
+                saveContext()
+                
+            }
         }
         
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context \(error)")
-        }
+
         
         dismissVC()
     }
@@ -248,6 +251,14 @@ class AddNewItemVC: UIViewController {
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
+    }
+    
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context \(error)")
+        }
     }
 }
 

@@ -124,6 +124,7 @@ class ItemListVC: UIViewController {
         }
         saveItems()
         tableView.reloadData()
+        print("check 2")
     }
     
     
@@ -183,6 +184,7 @@ class ItemListVC: UIViewController {
         addItemVC.editingItem = false
         addItemVC.itemLocations = []
         addItemVC.isAddingLocation = true
+        addItemVC.delegate = self
         
         present(addItemVC, animated: true)
     }
@@ -249,4 +251,15 @@ extension ItemListVC: ItemListCellDelegate {
     }
 }
 
+//MARK: - AddNewItemVCDelegate
+
+extension ItemListVC: AddNewItemVCDelegate {
+    func didAddNewItemToCart(item: ShoppingItem) {
+
+        addToShoppingList(item: item)
+        print("check 1")
+    }
+    
+    
+}
 
