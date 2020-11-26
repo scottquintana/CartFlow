@@ -53,6 +53,10 @@ class ItemListVC: UIViewController {
         loadItems()
         
         updateData()
+        
+        let notificationCenter = NotificationCenter.default
+           notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange(_:)), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: context)
+
     }
     
     
@@ -124,9 +128,16 @@ class ItemListVC: UIViewController {
         }
         saveItems()
         tableView.reloadData()
-        print("check 2")
+    
     }
     
+    private func updateBadge() {
+        if selectedList!.items!.count > 0 {
+        self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
+        } else {
+            self.tabBarController?.tabBar.items![0].badgeValue = nil
+        }
+    }
     
     private func updateData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ShoppingItem>()
@@ -178,6 +189,9 @@ class ItemListVC: UIViewController {
         }
     }
     
+    @objc func managedObjectContextObjectsDidChange(_ notification: Notification){
+        updateBadge()
+    }
     
     @objc func addButtonTapped() {
         let addItemVC = AddNewItemVC()
@@ -212,14 +226,7 @@ extension ItemListVC: UITableViewDelegate {
         
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
-        
-        if selectedList!.items!.count > 0 {
-        self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
-        } else {
-            self.tabBarController?.tabBar.items![0].badgeValue = nil
-        }
-       
-       
+   
 
     }
 }
@@ -257,7 +264,7 @@ extension ItemListVC: AddNewItemVCDelegate {
     func didAddNewItemToCart(item: ShoppingItem) {
 
         addToShoppingList(item: item)
-        print("check 1")
+        
     }
     
     
