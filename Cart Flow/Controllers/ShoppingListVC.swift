@@ -55,9 +55,8 @@ class ShoppingListVC: UIViewController {
         titleButton.translatesAutoresizingMaskIntoConstraints = false
         titleButton.set(storeName: buttonTitle)
         
-        titlebuttonWidth = titleButton.widthAnchor.constraint(equalToConstant: (titleButton.title.intrinsicContentSize.width + titleButton.downArrow.intrinsicContentSize.width))
+        titlebuttonWidth = titleButton.widthAnchor.constraint(equalToConstant: (titleButton.title.intrinsicContentSize.width +                                                                      titleButton.downArrow.intrinsicContentSize.width))
         titlebuttonWidth.isActive = true
-        
         titleButton.addTarget(self, action: #selector(sortLists), for: .touchUpInside)
         
     }
@@ -106,7 +105,6 @@ class ShoppingListVC: UIViewController {
         storeFilterVC.modalPresentationStyle = UIModalPresentationStyle.popover
         storeFilterVC.preferredContentSize = CGSize(width: 200, height: getPopoverHeight())
         if let storePopoverPC = storeFilterVC.popoverPresentationController {
-            //storePopoverPC.barButtonItem = filterButton
             storePopoverPC.sourceView = titleButton
             storePopoverPC.sourceRect = titleButton.title.frame
             storePopoverPC.permittedArrowDirections = .up
@@ -151,8 +149,6 @@ class ShoppingListVC: UIViewController {
             do {
                 let items = try context.fetch(request)
                 
-                // Try to find a solution that isn't O(n2) if possible
-                
                 for item in items {
                     if let locations = item.itemLocation as? Set<Aisle> {
                         for location in locations {
@@ -160,13 +156,10 @@ class ShoppingListVC: UIViewController {
                                 if store.name == currentStore {
                                     if let aisle = location.label {
                                         
-                                        // Make a model for this that doesn't invole core data?
-                                        
                                         let itemCurrentLocation = LocationForStore(context: context)
                                         itemCurrentLocation.aisleNumber = aisle
                                         itemCurrentLocation.storeName = location.parentStore?.name
                                         item.itemLocationInStore = itemCurrentLocation
-                                        
                                     }
                                 }
                             }

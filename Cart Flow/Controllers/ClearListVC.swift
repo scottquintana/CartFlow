@@ -48,6 +48,10 @@ class ClearListVC: UIViewController {
         containerView.layer.cornerRadius = 16
         containerView.layer.borderWidth = 3
         containerView.layer.borderColor = UIColor.black.cgColor
+        containerView.layer.shadowColor = UIColor.systemGray.cgColor
+        containerView.layer.shadowOpacity = 0.25
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        containerView.layer.shadowRadius = 15
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

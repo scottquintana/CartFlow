@@ -289,7 +289,7 @@ extension AddNewItemVC: LocationSelectionViewDelegate {
         aisleScrollVC.delegate = self
         aisleScrollVC.modalPresentationStyle = .overFullScreen
         aisleScrollVC.modalTransitionStyle = .crossDissolve
-        present(aisleScrollVC, animated: true)
+        present(aisleScrollVC, animated: false)
         
     }
     
