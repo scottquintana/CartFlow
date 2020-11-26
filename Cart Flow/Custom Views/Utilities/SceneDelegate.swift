@@ -28,10 +28,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func configureNavigationBar() {
-        UINavigationBar.appearance().tintColor = .black
-        UINavigationBar.appearance().barTintColor = .white
-        UINavigationBar.appearance().backgroundColor = .white
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
+        UINavigationBar.appearance().tintColor = .label
+        UINavigationBar.appearance().barTintColor = .systemBackground
+        UINavigationBar.appearance().backgroundColor = .systemBackground
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.label]
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

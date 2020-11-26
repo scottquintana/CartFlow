@@ -32,6 +32,9 @@ class CFButton: UIButton {
         layer.cornerRadius = 16
         setTitleColor(.white, for: .normal)
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        titleLabel?.numberOfLines = 1
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        titleLabel?.baselineAdjustment = .alignCenters
         translatesAutoresizingMaskIntoConstraints = false
     }
     

@@ -28,10 +28,10 @@ class CFTitleButton: UIButton {
         
         
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.textColor = .black
+        title.textColor = .label
         
         downArrow.translatesAutoresizingMaskIntoConstraints = false
-        downArrow.tintColor = .black
+        downArrow.tintColor = .label
         
         NSLayoutConstraint.activate([
             
