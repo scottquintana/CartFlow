@@ -11,7 +11,7 @@ import CoreData
 
 protocol AddNewItemVCDelegate: class {
     
-    func didAddNewItem(controller: AddNewItemVC, item: ShoppingItem)
+    func didAddNewItemToCart(item: ShoppingItem)
 }
 
 class AddNewItemVC: UIViewController {
@@ -91,13 +91,14 @@ class AddNewItemVC: UIViewController {
         itemNameView.translatesAutoresizingMaskIntoConstraints = false
         itemNameView.layer.cornerRadius = 20
         itemNameView.backgroundColor = sectionBackgroundColor
+        itemNameView.layer.masksToBounds = true
         itemNameView.itemNameTextField.text = editingItem ? "\(selectedItem!.name!)" : ""
         
         NSLayoutConstraint.activate([
             itemNameView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
             itemNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             itemNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            itemNameView.heightAnchor.constraint(equalToConstant: 120)
+            itemNameView.heightAnchor.constraint(equalToConstant: editingItem ? 120 : 160)
         ])
     }
     
@@ -230,24 +231,37 @@ class AddNewItemVC: UIViewController {
         
         switch editingItem {
         case true:
-            selectedItem?.name = itemNameView.itemNameTextField.text
+            if let item = selectedItem {
+                item.name = itemNameView.itemNameTextField.text
+                saveContext()
+                
+                if itemNameView.addToCartSwitch.isOn {
+                    delegate.didAddNewItemToCart(item: item)
+                }
+            }
         case false:
             let newItem = ShoppingItem(context: context)
             newItem.name = itemNameView.itemNameTextField.text!
+            saveContext()
+            
+            if itemNameView.addToCartSwitch.isOn {
+                delegate.didAddNewItemToCart(item: newItem)
+            }
         }
-        
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context \(error)")
-        }
-        
         dismissVC()
     }
     
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
+    }
+    
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context \(error)")
+        }
     }
 }
 

@@ -29,6 +29,7 @@ class CFTabBarController: UITabBarController {
         tabBar.barTintColor = .systemBackground
         tabBar.tintColor = .label
         tabBar.items![0].badgeColor = Colors.red
+        
         if shoppingList.items!.count > 0 {
             tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
         }

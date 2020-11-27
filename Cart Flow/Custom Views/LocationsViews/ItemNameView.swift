@@ -13,6 +13,8 @@ class ItemNameView: UIView {
     let itemNameButton = CFHeaderButton()
     let itemNameTextField = CFTextField()
     var selectedItem: ShoppingItem?
+    let addToCartLabel = CFTitleLabel()
+    let addToCartSwitch = UISwitch()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,10 +29,17 @@ class ItemNameView: UIView {
     private func configure() {
         addSubview(itemNameButton)
         addSubview(itemNameTextField)
-        
+        addSubview(addToCartLabel)
+        addSubview(addToCartSwitch)
         
         itemNameButton.set(title: "Item name: (required)")
         itemNameTextField.text = selectedItem?.name ?? ""
+        
+        addToCartLabel.text = "Add to cart?"
+        addToCartLabel.textAlignment = .right
+        
+        addToCartSwitch.translatesAutoresizingMaskIntoConstraints = false
+        
         let padding: CGFloat = 20
         
         NSLayoutConstraint.activate([
@@ -43,7 +52,18 @@ class ItemNameView: UIView {
             itemNameTextField.topAnchor.constraint(equalTo: itemNameButton.bottomAnchor, constant: padding),
             itemNameTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
             itemNameTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            itemNameTextField.heightAnchor.constraint(equalToConstant: 36)
+            itemNameTextField.heightAnchor.constraint(equalToConstant: 36),
+            
+            addToCartLabel.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: 30),
+            addToCartLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
+            addToCartLabel.trailingAnchor.constraint(equalTo: addToCartSwitch.leadingAnchor, constant: -padding),
+            //addToCartLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
+            
+            addToCartSwitch.centerYAnchor.constraint(equalTo: addToCartLabel.centerYAnchor, constant: -4),
+            addToCartSwitch.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
+            addToCartSwitch.heightAnchor.constraint(equalToConstant: 20),
+            addToCartSwitch.widthAnchor.constraint(equalToConstant: 40)
+
             
         ])
     }

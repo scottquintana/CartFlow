@@ -46,13 +46,15 @@ class ItemListVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureNotifications()
         configureViewController()
         configureTableView()
         configureDataSource()
         loadItems()
         
         updateData()
+        
+        
     }
     
     
@@ -62,10 +64,19 @@ class ItemListVC: UIViewController {
         
     }
     
+    
+    private func configureNotifications() {
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange(_:)), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: context)
+    }
+    
+    
     private func configureViewController() {
         view.backgroundColor = Colors.darkBar
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
+    
     
     private func configureNavItems() {
         let addButton =  UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
@@ -95,7 +106,7 @@ class ItemListVC: UIViewController {
         self.parent?.navigationItem.searchController = searchController
     }
     
-
+    
     private func configureDataSource() {
         dataSource = DataSource(tableView: tableView, cellProvider: { (tableView, indexPath, shoppingItem) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: ItemListCell.reuseID, for: indexPath) as! ItemListCell
@@ -124,8 +135,16 @@ class ItemListVC: UIViewController {
         }
         saveItems()
         tableView.reloadData()
+        
     }
     
+    private func updateBadge() {
+        if selectedList!.items!.count > 0 {
+            self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
+        } else {
+            self.tabBarController?.tabBar.items![0].badgeValue = nil
+        }
+    }
     
     private func updateData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ShoppingItem>()
@@ -177,12 +196,16 @@ class ItemListVC: UIViewController {
         }
     }
     
+    @objc func managedObjectContextObjectsDidChange(_ notification: Notification){
+        updateBadge()
+    }
     
     @objc func addButtonTapped() {
         let addItemVC = AddNewItemVC()
         addItemVC.editingItem = false
         addItemVC.itemLocations = []
         addItemVC.isAddingLocation = true
+        addItemVC.delegate = self
         
         present(addItemVC, animated: true)
     }
@@ -204,21 +227,14 @@ extension ItemListVC: NSFetchedResultsControllerDelegate {
 
 extension ItemListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         addToShoppingList(item: item)
         
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
-        if selectedList!.items!.count > 0 {
-        self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
-        } else {
-            self.tabBarController?.tabBar.items![0].badgeValue = nil
-        }
-       
-       
-
+        
     }
 }
 
@@ -244,9 +260,20 @@ extension ItemListVC: ItemListCellDelegate {
         let addItemVC = AddNewItemVC()
         addItemVC.selectedItem = item
         addItemVC.editingItem = true
-
+        
         present(addItemVC, animated: true)
     }
 }
 
+//MARK: - AddNewItemVCDelegate
+
+extension ItemListVC: AddNewItemVCDelegate {
+    func didAddNewItemToCart(item: ShoppingItem) {
+        
+        addToShoppingList(item: item)
+        saveItems()
+    }
+    
+    
+}
 
