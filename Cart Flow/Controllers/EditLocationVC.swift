@@ -110,8 +110,6 @@ class EditLocationVC: UIViewController {
             aisleContainer.trailingAnchor.constraint(equalTo: editContainer.trailingAnchor),
             aisleContainer.bottomAnchor.constraint(equalTo: editContainer.bottomAnchor, constant: -58)
             
-            // set this height to adjust with the aisle count
-            
         ])
         
     }
@@ -267,6 +265,25 @@ extension EditLocationVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - EditAisleViewDelegate
 
 extension EditLocationVC: EditAisleViewDelegate {
+    func didRemoveAisle(aisle: Aisle) {
+        let alert = UIAlertController(title: "Remove aisle?", message: "Are you sure you want to remove this aisle? It will be removed from all associated items.", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: {(action) -> Void in })
+        let action = UIAlertAction(title: "Remove", style: .destructive) { (action) in
+            self.context.delete(aisle)
+            self.editAislesView.resetEditor()
+            do {
+                try self.context.save()
+            } catch {
+                print("error removing aisle")
+            }
+            self.loadAisles()
+        }
+        alert.addAction(cancel)
+        alert.addAction(action)
+        present(alert, animated: true)
+        
+    }
+    
     func didAddAisle(aisle: Aisle) {
         if selectedStore == nil {
             let newStore = GroceryStore(context: context)
@@ -275,7 +292,7 @@ extension EditLocationVC: EditAisleViewDelegate {
             selectedStore = newStore
         }
         selectedStore?.addToAisles(aisle)
-        //aislesInStore.append(aisle)
+        
         
         do {
             try context.save()

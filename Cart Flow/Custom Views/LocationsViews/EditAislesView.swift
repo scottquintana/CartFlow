@@ -12,6 +12,8 @@ protocol EditAisleViewDelegate: class {
     func didAddAisle(aisle: Aisle)
     
     func didUpdateAisle()
+    
+    func didRemoveAisle(aisle: Aisle)
 }
 
 class EditAislesView: UIView {
@@ -29,6 +31,7 @@ class EditAislesView: UIView {
     let descriptionLabel = CFBodyLabel()
     let descriptionTextField = CFTextField()
     
+    let removeAisleButton = CFButton(backgroundColor: Colors.red, title: "Remove")
     let cancelEditButton = CFButton(backgroundColor: .systemGray3, title: "Cancel")
     let addUpdateButton = CFButton(backgroundColor: Colors.darkBar, title: "Add aisle")
     
@@ -120,13 +123,23 @@ class EditAislesView: UIView {
     
     private func configureButtons() {
         
-        
+        addSubview(removeAisleButton)
         addSubview(addUpdateButton)
         addSubview(cancelEditButton)
         
+        removeAisleButton.isHidden = true
+        
+        removeAisleButton.addTarget(self, action: #selector(removeAisle), for: .touchUpInside)
         addUpdateButton.addTarget(self, action: #selector(addUpdateAisleInfo), for: .touchUpInside)
         cancelEditButton.addTarget(self, action: #selector(cancelAisleUpdate), for: .touchUpInside)
         NSLayoutConstraint.activate([
+            
+            removeAisleButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
+            removeAisleButton.trailingAnchor.constraint(equalTo: cancelEditButton.leadingAnchor, constant: -5),
+            removeAisleButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            removeAisleButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            
             addUpdateButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
             addUpdateButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             addUpdateButton.widthAnchor.constraint(equalToConstant: 100),
@@ -151,20 +164,35 @@ class EditAislesView: UIView {
         ])
     }
     
+    @objc func removeAisle() {
+        guard let selectedAisle = selectedAisle else { return }
+        delegate.didRemoveAisle(aisle: selectedAisle)
+        //resetEditor()
+        
+    }
+    
+    
     func loadAisleToEdit(selectedAisle: Aisle) {
         isEditingAisle = true
         self.selectedAisle = selectedAisle
         aisleTextField.text = selectedAisle.label
         descriptionTextField.text = selectedAisle.desc
+        removeAisleButton.isHidden = false
         addUpdateButton.set(backgroundColor: Colors.darkBar, title: "Update")
+    }
+    
+    
+    func resetEditor() {
+        aisleTextField.text = ""
+        descriptionTextField.text = ""
+        isEditingAisle = false
+        removeAisleButton.isHidden = true
     }
     
     
     @objc func cancelAisleUpdate() {
         
-        aisleTextField.text = ""
-        descriptionTextField.text = ""
-        isEditingAisle = false
+        resetEditor()
         addUpdateButton.set(backgroundColor: Colors.darkBar, title: "Add aisle")
         
         self.endEditing(true)
@@ -180,6 +208,7 @@ class EditAislesView: UIView {
             self.selectedAisle?.label = aisleTextField.text
             self.selectedAisle?.desc = descriptionTextField.text
             delegate.didUpdateAisle()
+            removeAisleButton.isHidden = true
         } else {
             let newAisle = Aisle(context: context)
             newAisle.label = aisleTextField.text
@@ -188,10 +217,7 @@ class EditAislesView: UIView {
             delegate.didAddAisle(aisle: newAisle)
         }
         
-        selectedAisle = nil
-        aisleTextField.text = ""
-        descriptionTextField.text = ""
-        isEditingAisle = false
+        resetEditor()
         addUpdateButton.set(backgroundColor: Colors.darkBar, title: "Add aisle")
         
         self.endEditing(true)
