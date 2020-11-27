@@ -36,6 +36,7 @@ class ItemNameView: UIView {
         itemNameTextField.text = selectedItem?.name ?? ""
         
         addToCartLabel.text = "Add to cart?"
+        addToCartLabel.textAlignment = .right
         
         addToCartSwitch.translatesAutoresizingMaskIntoConstraints = false
         
@@ -53,13 +54,13 @@ class ItemNameView: UIView {
             itemNameTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
             itemNameTextField.heightAnchor.constraint(equalToConstant: 36),
             
-            addToCartLabel.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: padding),
+            addToCartLabel.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: 30),
             addToCartLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
-            addToCartLabel.trailingAnchor.constraint(equalTo: addToCartSwitch.leadingAnchor),
-            addToCartLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
+            addToCartLabel.trailingAnchor.constraint(equalTo: addToCartSwitch.leadingAnchor, constant: -padding),
+            //addToCartLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
             
-            addToCartSwitch.centerYAnchor.constraint(equalTo: addToCartLabel.centerYAnchor),
-            addToCartSwitch.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
+            addToCartSwitch.centerYAnchor.constraint(equalTo: addToCartLabel.centerYAnchor, constant: -4),
+            addToCartSwitch.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
             addToCartSwitch.heightAnchor.constraint(equalToConstant: 20),
             addToCartSwitch.widthAnchor.constraint(equalToConstant: 40)
 
