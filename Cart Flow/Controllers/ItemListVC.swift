@@ -41,6 +41,7 @@ class ItemListVC: UIViewController {
     var selectedList: ShoppingList!
     var tableView = UITableView()
     var dataSource: DataSource!
+    let searchController = UISearchController()
     
     var currentSearchText = ""
     
@@ -68,7 +69,9 @@ class ItemListVC: UIViewController {
     private func configureNotifications() {
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange(_:)), name: Notification.Name.NSManagedObjectContextObjectsDidChange, object: context)
+        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange(_:)),
+                                             name: Notification.Name.NSManagedObjectContextObjectsDidChange,
+                                             object: context)
     }
     
     
@@ -99,7 +102,7 @@ class ItemListVC: UIViewController {
     
     
     private func configureSearchController() {
-        let searchController = UISearchController()
+        
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search for an item"
         searchController.obscuresBackgroundDuringPresentation = false
@@ -230,7 +233,10 @@ extension ItemListVC: UITableViewDelegate {
         
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         addToShoppingList(item: item)
-        
+        if !currentSearchText.isEmpty {
+            searchController.searchBar.text = ""
+            searchController.isActive = false
+        }
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         

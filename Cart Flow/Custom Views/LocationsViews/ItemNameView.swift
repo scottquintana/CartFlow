@@ -36,6 +36,7 @@ class ItemNameView: UIView {
         itemNameTextField.text = selectedItem?.name ?? ""
         
         addToCartLabel.text = "Add to cart?"
+        addToCartLabel.textColor = .black
         addToCartLabel.textAlignment = .right
         
         addToCartSwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +58,7 @@ class ItemNameView: UIView {
             addToCartLabel.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: 30),
             addToCartLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
             addToCartLabel.trailingAnchor.constraint(equalTo: addToCartSwitch.leadingAnchor, constant: -padding),
-            //addToCartLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
+           
             
             addToCartSwitch.centerYAnchor.constraint(equalTo: addToCartLabel.centerYAnchor, constant: -4),
             addToCartSwitch.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
