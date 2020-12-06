@@ -10,6 +10,7 @@ import UIKit
 
 class CFTabBarController: UITabBarController {
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var shoppingList: ShoppingList!
     
     init(listSelected: ShoppingList) {
@@ -25,14 +26,15 @@ class CFTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         viewControllers = [createListsVC(), createItemListVC()]
         tabBar.barTintColor = .systemBackground
         tabBar.tintColor = .label
         tabBar.items![0].badgeColor = Colors.red
         
-        if shoppingList.items!.count > 0 {
-            tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
-        }
+        configureNotifications()
+        updateBadge()
+
     }
     
  
@@ -52,6 +54,29 @@ class CFTabBarController: UITabBarController {
         itemListVC.tabBarItem = UITabBarItem(title: "Items List", image: SFSymbols.list, tag: 1)
         
         return itemListVC
+    }
+    
+    
+    private func configureNotifications() {
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange(_:)),
+                                             name: Notification.Name.NSManagedObjectContextObjectsDidChange,
+                                             object: context)
+    }
+    
+    
+    private func updateBadge() {
+        if shoppingList.items!.count > 0 {
+            tabBar.items![0].badgeValue = String(shoppingList!.items!.count)
+        } else {
+            tabBar.items![0].badgeValue = nil
+        }
+    }
+    
+    
+    @objc func managedObjectContextObjectsDidChange(_ notification: Notification){
+        updateBadge()
     }
     
 }

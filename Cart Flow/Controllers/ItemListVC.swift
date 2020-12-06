@@ -47,31 +47,18 @@ class ItemListVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNotifications()
+        
         configureViewController()
         configureTableView()
         configureDataSource()
         loadItems()
-        
         updateData()
-        
-        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         configureNavItems()
         tableView.reloadData()
-        
-    }
-    
-    
-    private func configureNotifications() {
-        
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(managedObjectContextObjectsDidChange(_:)),
-                                             name: Notification.Name.NSManagedObjectContextObjectsDidChange,
-                                             object: context)
     }
     
     
@@ -88,8 +75,8 @@ class ItemListVC: UIViewController {
         self.parent?.title = "Your items"
         
         configureSearchController()
-        
     }
+    
     
     private func configureTableView() {
         view.addSubview(tableView)
@@ -102,7 +89,6 @@ class ItemListVC: UIViewController {
     
     
     private func configureSearchController() {
-        
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search for an item"
         searchController.obscuresBackgroundDuringPresentation = false
@@ -141,13 +127,6 @@ class ItemListVC: UIViewController {
         
     }
     
-    private func updateBadge() {
-        if selectedList!.items!.count > 0 {
-            self.tabBarController?.tabBar.items![0].badgeValue = String(selectedList!.items!.count)
-        } else {
-            self.tabBarController?.tabBar.items![0].badgeValue = nil
-        }
-    }
     
     private func updateData() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ShoppingItem>()
@@ -167,6 +146,7 @@ class ItemListVC: UIViewController {
         if !currentSearchText.isEmpty {
             request.predicate = NSPredicate(format: "name CONTAINS[c] %@", currentSearchText, currentSearchText)
         }
+        
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [sortDescriptor]
         
@@ -199,10 +179,7 @@ class ItemListVC: UIViewController {
         }
     }
     
-    @objc func managedObjectContextObjectsDidChange(_ notification: Notification){
-        updateBadge()
-    }
-    
+
     @objc func addButtonTapped() {
         let addItemVC = AddNewItemVC()
         addItemVC.editingItem = false
@@ -279,7 +256,5 @@ extension ItemListVC: AddNewItemVCDelegate {
         addToShoppingList(item: item)
         saveItems()
     }
-    
-    
 }
 

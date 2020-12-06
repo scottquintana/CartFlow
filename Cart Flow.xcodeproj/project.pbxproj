@@ -10,6 +10,8 @@
 		5E0C301F2507CFE900B0CD52 /* EditAislesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C301E2507CFE900B0CD52 /* EditAislesView.swift */; };
 		5E0C30212509520A00B0CD52 /* AisleListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0C30202509520900B0CD52 /* AisleListCell.swift */; };
 		5E197ADA24E3211F0046B1E8 /* ShoppingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E197AD924E3211F0046B1E8 /* ShoppingListCell.swift */; };
+		5E1C62F325784CF100B1B15E /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1C62F225784CF100B1B15E /* UIViewController+Ext.swift */; };
+		5E1C62F625784D4B00B1B15E /* CFEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1C62F525784D4B00B1B15E /* CFEmptyStateView.swift */; };
 		5E1F51DC24E59F6D0096D3A3 /* CFPlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1F51DB24E59F6D0096D3A3 /* CFPlusButton.swift */; };
 		5E33AAED24F9920B00F64AF7 /* ItemNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E33AAEC24F9920B00F64AF7 /* ItemNameView.swift */; };
 		5E33AAEF24FD48D400F64AF7 /* EditLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */; };
@@ -55,6 +57,8 @@
 		5E0C301E2507CFE900B0CD52 /* EditAislesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAislesView.swift; sourceTree = "<group>"; };
 		5E0C30202509520900B0CD52 /* AisleListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AisleListCell.swift; sourceTree = "<group>"; };
 		5E197AD924E3211F0046B1E8 /* ShoppingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListCell.swift; sourceTree = "<group>"; };
+		5E1C62F225784CF100B1B15E /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		5E1C62F525784D4B00B1B15E /* CFEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFEmptyStateView.swift; sourceTree = "<group>"; };
 		5E1F51DB24E59F6D0096D3A3 /* CFPlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFPlusButton.swift; sourceTree = "<group>"; };
 		5E33AAEC24F9920B00F64AF7 /* ItemNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNameView.swift; sourceTree = "<group>"; };
 		5E33AAEE24FD48D400F64AF7 /* EditLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationVC.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 			children = (
 				5E7C8AD624F6FFD3006D4153 /* UIView+Ext.swift */,
 				5EF2FC24250A936F0089ADD7 /* UITextField+Ext.swift */,
+				5E1C62F225784CF100B1B15E /* UIViewController+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -221,6 +226,7 @@
 				5E769A7E24D862010024FECC /* SceneDelegate.swift */,
 				5E769AA424D8C5690024FECC /* Constants.swift */,
 				5ED23F172536023C0077DEA8 /* DateHelper.swift */,
+				5E1C62F525784D4B00B1B15E /* CFEmptyStateView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -376,8 +382,10 @@
 				5ED23F2025374F820077DEA8 /* StoreCell.swift in Sources */,
 				5ED984D224DB188C00AF1009 /* ItemListCell.swift in Sources */,
 				5E92C0C324EF215B004DABB6 /* CFLocationLabel.swift in Sources */,
+				5E1C62F325784CF100B1B15E /* UIViewController+Ext.swift in Sources */,
 				5ED23F182536023C0077DEA8 /* DateHelper.swift in Sources */,
 				5E769A9924D87AE20024FECC /* ListCell.swift in Sources */,
+				5E1C62F625784D4B00B1B15E /* CFEmptyStateView.swift in Sources */,
 				5E769AA524D8C5690024FECC /* Constants.swift in Sources */,
 				5E769A7D24D862010024FECC /* AppDelegate.swift in Sources */,
 				5E769A7F24D862010024FECC /* SceneDelegate.swift in Sources */,

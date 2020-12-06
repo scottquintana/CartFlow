@@ -187,6 +187,14 @@ class ShoppingListVC: UIViewController {
             print("Error loading this list")
         }
         
+        if fetchController.fetchedObjects?.count == 0 {
+            showEmptyStateView(with: "Your cart is empty.\n\nPlease add some items from your list.", in: self.view)
+        } else {
+            if let viewToRemove = view.viewWithTag(1) {
+                viewToRemove.removeFromSuperview()
+            }
+        }
+        
         tableView.reloadData()
     }
     
