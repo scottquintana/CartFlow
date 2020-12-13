@@ -22,9 +22,10 @@ class CFEmptyStateView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(message: String) {
+    convenience init(message: String, image: String) {
         self.init()
         messageLabel.text = message
+        cartImage.image = UIImage(named: image)
     }
     
     private func configure() {
@@ -34,7 +35,7 @@ class CFEmptyStateView: UIView {
         
         messageLabel.numberOfLines = 4
         
-        cartImage.image = UIImage(named: "groceries")
+        
         cartImage.alpha = 0.4
         cartImage.tintColor = .secondarySystemBackground
         cartImage.translatesAutoresizingMaskIntoConstraints = false

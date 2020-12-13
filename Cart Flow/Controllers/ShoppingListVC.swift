@@ -188,7 +188,7 @@ class ShoppingListVC: UIViewController {
         }
         
         if fetchController.fetchedObjects?.count == 0 {
-            showEmptyStateView(with: "Your cart is empty.\n\nPlease add some items from your list.", in: self.view)
+            showEmptyStateView(with: "Your cart is empty.\n\nPlease add some items from your list.", image: "groceries", in: self.view)
         } else {
             if let viewToRemove = view.viewWithTag(1) {
                 viewToRemove.removeFromSuperview()

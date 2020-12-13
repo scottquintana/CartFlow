@@ -18,6 +18,7 @@ class ListSelectVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         configureViewController()
         configureTableView()
         loadLists()
@@ -30,7 +31,7 @@ class ListSelectVC: UIViewController {
     
     
     func configureViewController() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = Colors.green
         title = "Your Lists"
       
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -45,9 +46,10 @@ class ListSelectVC: UIViewController {
         
         tableView.frame = view.bounds
         tableView.rowHeight = 80
-        
+        tableView.backgroundColor = .none
         tableView.delegate = self
         tableView.dataSource = self
+        //tableView.tableFooterView = UIView(frame: .zero)
         
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.reuseID)
 
@@ -63,6 +65,17 @@ class ListSelectVC: UIViewController {
             shoppingLists = try context.fetch(request)
         } catch {
             print("Error loading your shopping lists")
+        }
+        
+        if shoppingLists.count == 0 {
+            showEmptyStateView(with: "You have no lists.\nPlease start one using the \"+\" icon above", image: "shoppinglist", in: self.view)
+            
+            tableView.tableFooterView = UIView(frame: .zero)
+        } else {
+            if let viewToRemove = view.viewWithTag(1) {
+                viewToRemove.removeFromSuperview()
+            }
+            tableView.tableFooterView = .none
         }
     }
     
@@ -87,6 +100,7 @@ class ListSelectVC: UIViewController {
             newListItem.lastUpdate = Date()
             self.shoppingLists.append(newListItem)
             self.saveLists()
+            self.loadLists()
             self.tableView.reloadData()
         }
        
@@ -127,6 +141,7 @@ extension ListSelectVC: UITableViewDataSource, UITableViewDelegate {
         self.shoppingLists.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
         self.saveLists()
+        self.loadLists()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

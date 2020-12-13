@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-    func showEmptyStateView(with message: String, in view: UIView) {
-        let emptyStateView = CFEmptyStateView(message: message)
+    func showEmptyStateView(with message: String, image: String, in view: UIView) {
+        let emptyStateView = CFEmptyStateView(message: message, image: image)
         emptyStateView.tag = 1
         emptyStateView.frame = view.bounds
         view.addSubview(emptyStateView)
