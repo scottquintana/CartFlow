@@ -33,6 +33,7 @@ class ItemNameView: UIView {
         addSubview(addToCartSwitch)
         
         itemNameButton.set(title: "Item name: (required)")
+        itemNameTextField.placeholder = "Banana, milk, lettuce, etc."
         itemNameTextField.text = selectedItem?.name ?? ""
         
         addToCartLabel.text = "Add to cart?"

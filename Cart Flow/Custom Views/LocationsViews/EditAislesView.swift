@@ -105,6 +105,7 @@ class EditAislesView: UIView {
         descriptionStackView.addSubview(descriptionTextField)
         descriptionLabel.text = "Description:"
         descriptionLabel.textColor = .white
+        descriptionTextField.placeholder = "Produce, frozen foods, etc."
         descriptionTextField.text = selectedAisle?.description ?? ""
         
         NSLayoutConstraint.activate([
@@ -167,8 +168,6 @@ class EditAislesView: UIView {
     @objc func removeAisle() {
         guard let selectedAisle = selectedAisle else { return }
         delegate.didRemoveAisle(aisle: selectedAisle)
-        //resetEditor()
-        
     }
     
     

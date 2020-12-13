@@ -46,7 +46,7 @@ class AisleListCell: UITableViewCell {
         NSLayoutConstraint.activate([
             aisleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             aisleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            aisleLabel.widthAnchor.constraint(equalToConstant: 25),
+            aisleLabel.widthAnchor.constraint(equalToConstant: 40),
             
             descriptionLabel.centerYAnchor.constraint(equalTo: aisleLabel.centerYAnchor),
             descriptionLabel.leadingAnchor.constraint(equalTo: aisleLabel.trailingAnchor, constant: 10),

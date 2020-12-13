@@ -49,7 +49,6 @@ class ListSelectVC: UIViewController {
         tableView.backgroundColor = .none
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.tableFooterView = UIView(frame: .zero)
         
         tableView.register(ListCell.self, forCellReuseIdentifier: ListCell.reuseID)
 
